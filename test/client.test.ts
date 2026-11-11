@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CalcBloc, type FetchLike } from "../src/client";
+import { CalcBloc, KEYS_URL, type FetchLike } from "../src/client";
 import { CalcBlocError, RateLimitError } from "../src/errors";
 import { loadTable } from "../src/tables";
 import { VERSION } from "../src/version";
@@ -117,6 +117,34 @@ describe("CalcBloc client (mocked fetch)", () => {
     expect(err).toBeInstanceOf(RateLimitError);
     expect(err).toBeInstanceOf(CalcBlocError);
     expect(err).toMatchObject({ code: "rate_limited", status: 429, retryAfter: 17, limit: 5000, remaining: 4200, resetSeconds: 40000 });
+    // With a key the API's message for the key's limit is kept, without the key prompt.
+    expect(err.message).toBe("Too many requests this minute (limit 60).");
+    expect(err.message).not.toContain("developers/keys");
+  });
+
+  it("429 without a key → the free allowance is used up, with the keys link and how to set the key", async () => {
+    const { fetch, calls } = mockFetch(429, apiError("rate_limited", "Daily limit of 50 requests reached."), {
+      "Retry-After": "36000",
+      "X-RateLimit-Limit": "50",
+      "X-RateLimit-Remaining": "0",
+      "X-RateLimit-Reset": "36000",
+    });
+    const err = await new CalcBloc({ fetch, apiKey: "" }).netSalary({ country: "uk", salary: 30000 }).catch((e) => e);
+    expect(calls[0].headers["X-API-Key"]).toBeUndefined();
+    expect(err).toBeInstanceOf(RateLimitError);
+    expect(err).toMatchObject({ code: "rate_limited", status: 429, retryAfter: 36000, remaining: 0 });
+    expect(err.message).toMatch(/^The free allowance of 50 requests a day without a key is used up\. Add your free API key \(5,000 requests a day\): /);
+    expect(err.message).toContain(KEYS_URL);
+    expect(KEYS_URL).toBe("https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=app&utm_campaign=itmarkerz-oss");
+    expect(err.message).toContain("new CalcBloc({ apiKey })");
+    expect(err.message).toContain("CALCBLOC_API_KEY");
+  });
+
+  it("429 without a key on the per-minute limit says so", async () => {
+    const { fetch } = mockFetch(429, apiError("rate_limited", "Too many requests this minute (limit 5)."), { "Retry-After": "20" });
+    const err = await new CalcBloc({ fetch, apiKey: "" }).countries().catch((e) => e);
+    expect(err.message).toMatch(/^The free allowance without a key \(5 requests a minute, 50 a day\) is used up for this minute\./);
+    expect(err.message).toContain(KEYS_URL);
   });
 
   it("non-JSON error pages → http_error; bad JSON on 200 → invalid_response; fetch failure → network_error", async () => {

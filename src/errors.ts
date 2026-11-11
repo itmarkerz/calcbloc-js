@@ -54,7 +54,11 @@ export class CalcBlocError extends Error {
   }
 }
 
-/** HTTP 429: the per-minute burst or the daily limit was reached. Wait `retryAfter` seconds. */
+/**
+ * HTTP 429: the per-minute burst or the daily limit was reached. Wait `retryAfter` seconds. Without an API key the
+ * message says the free allowance (50 requests a day, 5 a minute) is used up and links to a free key (5,000 a day),
+ * set with `new CalcBloc({ apiKey })` or CALCBLOC_API_KEY; with a key it is the API's message for that key's limit.
+ */
 export class RateLimitError extends CalcBlocError {
   /** Seconds to wait before retrying (Retry-After header), when sent. */
   readonly retryAfter: number | null;

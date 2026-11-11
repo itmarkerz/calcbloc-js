@@ -27,7 +27,8 @@ export type FetchLike = (url: string, init: { method: "GET"; headers: Record<str
 export interface CalcBlocOptions {
   /**
    * Free API key from https://calcbloc.com/developers/keys, sent in the X-API-Key header. In Node it defaults to the
-   * CALCBLOC_API_KEY environment variable. Calculation endpoints need a key; reference endpoints work without one.
+   * CALCBLOC_API_KEY environment variable. Optional: without a key every endpoint works for 50 requests a day and
+   * 5 a minute per IP address; a free key allows 5,000 a day and 60 a minute.
    */
   apiKey?: string;
   /** Default https://calcbloc.com */
@@ -54,6 +55,18 @@ export interface TaxTablesOptions extends RequestOptions {
 }
 
 const SEGMENT = /^[A-Za-z0-9-]{1,40}$/;
+
+/** Where to get a free API key; linked from the RateLimitError raised when the free allowance without a key is used up. */
+export const KEYS_URL = "https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=app&utm_campaign=itmarkerz-oss";
+
+/** The 429 message without a key: the free allowance is used up; add a free key and how to set it. */
+function noKeyLimitMessage(apiMessage: string, retryAfter: number | null): string {
+  const perMinute = /minute/i.test(apiMessage) && (retryAfter === null || retryAfter <= 60);
+  const usedUp = perMinute
+    ? "The free allowance without a key (5 requests a minute, 50 a day) is used up for this minute."
+    : "The free allowance of 50 requests a day without a key is used up.";
+  return `${usedUp} Add your free API key (5,000 requests a day): ${KEYS_URL} (set it with new CalcBloc({ apiKey }) or the CALCBLOC_API_KEY environment variable).`;
+}
 
 function envApiKey(): string | undefined {
   const p = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
@@ -189,8 +202,10 @@ export class CalcBloc {
     if (!err) throw new CalcBlocError("http_error", `HTTP ${res.status} from ${path}${text ? `: ${text.slice(0, 200)}` : ""}`, { status: res.status });
     const { code, message, docs, ...details } = err;
     const common = { status: res.status, docs, details: Object.keys(details).length ? details : undefined };
-    if (res.status === 429 || code === "rate_limited")
-      throw new RateLimitError(message, { ...common, retryAfter: num(res.headers.get("retry-after")), limit, remaining, resetSeconds: reset });
+    if (res.status === 429 || code === "rate_limited") {
+      const retryAfter = num(res.headers.get("retry-after"));
+      throw new RateLimitError(this.#apiKey ? message : noKeyLimitMessage(message, retryAfter), { ...common, retryAfter, limit, remaining, resetSeconds: reset });
+    }
     throw new CalcBlocError(code, message, common);
   }
 }

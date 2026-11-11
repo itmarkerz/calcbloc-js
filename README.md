@@ -85,14 +85,14 @@ pay.calculatorUrl;       // https://calcbloc.com/uk/take-home-pay-calculator
 pay.attribution.text;    // "Data by CalcBloc (calcbloc.com)"
 ```
 
-Response from the live API on 11 November 2026. Get a free key at [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss).
+Response from the live API on 11 November 2026. Works without a key for 50 requests a day; a free key from [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) gives 5,000.
 
 ## Offline tables or the API?
 
 | | `calcbloc/tables` (bundled) | `CalcBloc` client (API) |
 | --- | --- | --- |
 | Network | None | HTTPS to calcbloc.com |
-| API key | Not needed | Optional for tables, needed for calculations |
+| API key | Not needed | Optional: 50 requests a day without one, 5,000 with a free key |
 | Data | This package version (see `manifest.generatedAt`) | Always current |
 | Tax tables | National and regional, every bundled year | Same, plus CSV |
 | Take-home pay, employer cost, compare | No (use `taxFromBands` for brackets only) | Yes |
@@ -169,9 +169,9 @@ Every API error has the body `{ "error": { "code", "message", "docs" } }`. The c
 | --- | --- | --- |
 | 400 | `unsupported_country` | A tables-only country on `netSalary`, `employerCost` or `compare`; the message links to its tax tables |
 | 400 | `invalid_parameter`, `unknown_parameter`, `missing_parameter` | A parameter is wrong, unknown or missing |
-| 401 | `api_key_required`, `invalid_key` | No key on a calculation endpoint, or a revoked key |
+| 401 | `api_key_required`, `invalid_key` | A revoked or unknown key (or no key, if keyless calculations are ever switched off) |
 | 404 | `unsupported_country`, `unsupported_year`, `not_found` | No such tax table |
-| 429 | `rate_limited` | Thrown as `RateLimitError` with `retryAfter` (seconds) |
+| 429 | `rate_limited` | Thrown as `RateLimitError` with `retryAfter` (seconds); without a key the message asks for a free API key |
 | 503 | `service_unavailable` | Temporary; retry after `Retry-After` |
 
 Client-side codes: `network_error` (no response), `http_error` (an error page that is not the API's JSON), `invalid_response`.
@@ -187,14 +187,19 @@ try {
 }
 ```
 
-### API keys and rate limits
+### Free use and API keys
+
+- **Offline tables need no key and no network**: `calcbloc/tables` reads the tables bundled in the package.
+- **API calls work without a key** for 50 requests a day and 5 a minute per IP address, on every endpoint.
+- **Add a free API key for 5,000 requests a day** (60 a minute). Get one instantly at [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) (enter your email address; the key is shown once).
+- **Set it** with `new CalcBloc({ apiKey: "cb_..." })`, or in the `CALCBLOC_API_KEY` environment variable, which the client reads by default in Node. It is sent in the `X-API-Key` header; the API refuses keys in the URL. Keep keys on the server; do not ship them in browser code.
 
 | | Per day | Per minute |
 | --- | --- | --- |
 | No key (per IP address) | 50 | 5 |
 | Free key | 5,000 | 60 |
 
-Tax tables and countries work without a key. The calculation endpoints (net salary, employer cost, compare) need a free key: send it with `apiKey` (the client puts it in the `X-API-Key` header; the API refuses keys in the URL). Keep keys on the server; do not ship them in browser code. For higher volumes, see [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss).
+When the free allowance without a key is used up, the client throws a `RateLimitError` whose message says so, links to the keys page and shows how to set the key. With a key, the message gives that key's limit. For higher volumes, see [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
 ## Data, sources and licence
 

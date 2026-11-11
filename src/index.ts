@@ -5,7 +5,7 @@
  * Offline tables (Node): import { loadTable } from "calcbloc/tables"
  * One country (bundlers/browsers): import { tables } from "calcbloc/tables/uk"
  */
-export { CalcBloc, type CalcBlocOptions, type FetchLike, type FetchResponseLike, type RequestOptions, type TaxTablesOptions } from "./client";
+export { CalcBloc, KEYS_URL, type CalcBlocOptions, type FetchLike, type FetchResponseLike, type RequestOptions, type TaxTablesOptions } from "./client";
 export { CalcBlocError, RateLimitError, type CalcBlocErrorCode, type CalcBlocErrorOptions } from "./errors";
 export { bandBreakdown, bandsSection, findSection, taxFromBands, type BandAmount } from "./bands";
 export { buildRows } from "./rows";
