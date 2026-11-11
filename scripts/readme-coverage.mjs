@@ -30,6 +30,13 @@ if (liveArg) {
   live = new Set(JSON.parse(text).countries.map((c) => c.code));
 }
 
+// Referral tag for the README's links to calcbloc.com (the bundled pageUrl values stay plain).
+const README_UTM = "utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss";
+const readmeLink = (url) => {
+  const [base, ...hash] = url.split("#");
+  return `${base}${base.includes("?") ? "&" : "?"}${README_UTM}${hash.length ? `#${hash.join("#")}` : ""}`;
+};
+
 const isLive = (c) => c.live !== false && (live === null || live.has(c.country));
 const fmtDate = (d) => {
   const [y, m, day] = d.split("-").map(Number);
@@ -44,7 +51,7 @@ let unpublished = 0;
 for (const c of manifest.countries) {
   const published = isLive(c);
   if (!published) unpublished++;
-  const name = published ? `[${c.name}](${c.pageUrl})` : `${c.name} *`;
+  const name = published ? `[${c.name}](${readmeLink(c.pageUrl)})` : `${c.name} *`;
   const regionFiles = c.files.filter((f) => f.split("/").length > 2).length;
   const regions = c.regions.length ? `${c.regions.length}${regionFiles ? "" : " (via the API)"}` : "–";
   lines.push(`| ${name} | \`${c.country}\` | ${c.years.join(", ")} | ${regions} | ${fmtDate(c.lastVerified)} |`);

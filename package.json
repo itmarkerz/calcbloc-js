@@ -26,7 +26,7 @@
     "typescript",
     "offline"
   ],
-  "homepage": "https://calcbloc.com/developers",
+  "homepage": "https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=package&utm_campaign=itmarkerz-oss",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itmarkerz/calcbloc-js.git"
