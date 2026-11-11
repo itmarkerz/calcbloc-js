@@ -1,0 +1,114 @@
+{
+  "name": "calcbloc",
+  "version": "0.1.0",
+  "description": "Tax tables 2026 for Node and TypeScript: official income tax brackets, social security rates and payroll thresholds, bundled for offline use, plus a typed client for the CalcBloc tax tables API.",
+  "keywords": [
+    "tax",
+    "income tax",
+    "income tax brackets",
+    "tax brackets",
+    "tax tables",
+    "tax tables 2026",
+    "tax tables api",
+    "tax rates",
+    "social security rates",
+    "payroll",
+    "payroll tax",
+    "take-home pay",
+    "net salary",
+    "salary calculator",
+    "employer cost",
+    "paye",
+    "national insurance",
+    "usc",
+    "cpf",
+    "calcbloc",
+    "typescript",
+    "offline"
+  ],
+  "homepage": "https://calcbloc.com/developers",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itmarkerz/calcbloc-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itmarkerz/calcbloc-js/issues"
+  },
+  "license": "MIT",
+  "author": "CalcBloc (https://calcbloc.com)",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./tables": {
+      "import": {
+        "types": "./dist/tables.d.ts",
+        "default": "./dist/tables.js"
+      },
+      "require": {
+        "types": "./dist/tables.d.cts",
+        "default": "./dist/tables.cjs"
+      }
+    },
+    "./tables/*": {
+      "import": {
+        "types": "./dist/countries/*.d.ts",
+        "default": "./dist/countries/*.js"
+      },
+      "require": {
+        "types": "./dist/countries/*.d.cts",
+        "default": "./dist/countries/*.cjs"
+      }
+    },
+    "./manifest.json": "./data/manifest.json",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "tables": [
+        "./dist/tables.d.ts"
+      ],
+      "tables/*": [
+        "./dist/countries/*.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "data",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "sync": "node scripts/sync-tables.mjs",
+    "build": "tsup && node scripts/build-countries.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:dist": "node scripts/smoke-dist.mjs && node scripts/smoke-dist.cjs",
+    "readme:coverage": "node scripts/readme-coverage.mjs",
+    "prepack": "npm run build",
+    "check": "npm run typecheck && npm test && npm run build && npm run test:dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.12"
+  }
+}
