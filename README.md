@@ -232,15 +232,13 @@ Figures can change during a tax year and are provided as published, without warr
 | [Czechia](https://calcbloc.com/czechia/tax-tables/2026) | `czechia` | 2026 | – | 11 Nov 2026 |
 | [Norway](https://calcbloc.com/norway/tax-tables/2026) | `norway` | 2026 | – | 11 Nov 2026 |
 | [Finland](https://calcbloc.com/finland/tax-tables/2026) | `finland` | 2026 | 19 | 11 Nov 2026 |
-| Slovenia * | `slovenia` | 2026 | – | 11 Nov 2026 |
-| Romania * | `romania` | 2026 | – | 11 Nov 2026 |
-| Hungary * | `hungary` | 2026 | – | 11 Nov 2026 |
-| Slovakia * | `slovakia` | 2026 | – | 11 Nov 2026 |
-| Greece * | `greece` | 2026 | – | 11 Nov 2026 |
+| [Slovenia](https://calcbloc.com/slovenia/tax-tables/2026) | `slovenia` | 2026 | – | 11 Nov 2026 |
+| [Romania](https://calcbloc.com/romania/tax-tables/2026) | `romania` | 2026 | – | 11 Nov 2026 |
+| [Hungary](https://calcbloc.com/hungary/tax-tables/2026) | `hungary` | 2026 | – | 11 Nov 2026 |
+| [Slovakia](https://calcbloc.com/slovakia/tax-tables/2026) | `slovakia` | 2026 | – | 11 Nov 2026 |
+| [Greece](https://calcbloc.com/greece/tax-tables/2026) | `greece` | 2026 | – | 11 Nov 2026 |
 
 29 countries, generated from the bundled `manifest.json` (data of 11 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
-
-\* Bundled in the package; the calcbloc.com page and the API endpoint for this country are not published yet.
 
 In preparation: Belgium.
 <!-- coverage:end -->
