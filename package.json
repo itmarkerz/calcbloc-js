@@ -35,7 +35,7 @@
     "url": "https://github.com/itmarkerz/calcbloc-js/issues"
   },
   "license": "MIT",
-  "author": "CalcBloc (https://calcbloc.com)",
+  "author": "itmarkerz technologies (https://itmarkerz.co.in)",
   "type": "module",
   "sideEffects": false,
   "engines": {
@@ -102,7 +102,8 @@
     "test": "vitest run",
     "test:dist": "node scripts/smoke-dist.mjs && node scripts/smoke-dist.cjs",
     "readme:coverage": "node scripts/readme-coverage.mjs",
-    "prepack": "npm run build",
+    "prepack": "npm run build && node scripts/npm-readme.mjs write",
+    "postpack": "node scripts/npm-readme.mjs restore",
     "check": "npm run typecheck && npm test && npm run build && npm run test:dist"
   },
   "devDependencies": {

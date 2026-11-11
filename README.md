@@ -202,6 +202,7 @@ Tax tables and countries work without a key. The calculation endpoints (net sala
 - **Same data as the website and the API:** the tables are published at [calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss), served by the [API](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) and shown on each country's tax-tables page (`pageUrl`).
 - **Data licence: CC BY 4.0.** You may use, share and adapt the tables, including commercially, with credit: **"Data by CalcBloc (calcbloc.com/data)"** and a link to [https://calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss). The API's own terms ask for a visible link to calcbloc.com wherever API figures are shown ([terms](https://calcbloc.com/developers/terms?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss)).
 - **Code licence: MIT** (see [LICENSE](LICENSE)).
+- **Copyright:** © 2026 itmarkerz technologies (code and data). CalcBloc is a product of itmarkerz technologies.
 
 Figures can change during a tax year and are provided as published, without warranty. Check the official source before relying on a figure for a filing or a payroll run.
 
