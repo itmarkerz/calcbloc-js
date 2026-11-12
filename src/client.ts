@@ -136,7 +136,7 @@ export class CalcBloc {
     return this.#getJson(path, query, options);
   }
 
-  /** GET /api/v1/net-salary: take-home pay for an annual salary (requires an API key unless anonymous access is on). */
+  /** GET /api/v1/net-salary: take-home pay for an annual salary. */
   netSalary(params: CalculationParams, options: RequestOptions = {}): Promise<NetSalaryResponse> {
     return this.#getJson("/api/v1/net-salary", params, options);
   }
