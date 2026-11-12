@@ -245,8 +245,18 @@ Figures can change during a tax year and are provided as published, without warr
 | [Hungary](https://calcbloc.com/hungary/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `hungary` | 2026 | – | 11 Nov 2026 |
 | [Slovakia](https://calcbloc.com/slovakia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `slovakia` | 2026 | – | 11 Nov 2026 |
 | [Greece](https://calcbloc.com/greece/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `greece` | 2026 | – | 11 Nov 2026 |
+| [Latvia](https://calcbloc.com/latvia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `latvia` | 2026 | – | 11 Nov 2026 |
+| [Croatia](https://calcbloc.com/croatia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `croatia` | 2026 | 21 | 11 Nov 2026 |
+| [Estonia](https://calcbloc.com/estonia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `estonia` | 2026 | – | 11 Nov 2026 |
+| [Bulgaria](https://calcbloc.com/bulgaria/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `bulgaria` | 2026 | – | 11 Nov 2026 |
+| Lithuania * | `lithuania` | 2026 | – | 11 Nov 2026 |
+| Malta * | `malta` | 2026 | – | 11 Nov 2026 |
+| Cyprus * | `cyprus` | 2026 | – | 11 Nov 2026 |
+| Iceland * | `iceland` | 2026 | – | 11 Nov 2026 |
 
-29 countries, generated from the bundled `manifest.json` (data of 11 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
+37 countries, generated from the bundled `manifest.json` (data of 12 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
+
+\* Bundled in the package; the calcbloc.com page and the API endpoint for this country are not published yet.
 
 In preparation: Belgium.
 <!-- coverage:end -->

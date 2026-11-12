@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-11",
+ "generatedAt": "2026-11-12",
  "files": {
   "us/2026.json": {
    "sha256": "2a979fdcd735ac2f35be9135c4423591bb0a4fd1697e31bbb7a89e3fca2afcfb",
@@ -852,6 +852,122 @@
   "greece/2026.json": {
    "sha256": "e0357206b488ea24effae33b88ef37726d46b0e6c086b8dde5742a5773e9c0c5",
    "rows": 139
+  },
+  "latvia/2026.json": {
+   "sha256": "cc489491b7d8cf914bc917668f1ae984259a511315af2ec2c2b8a2ee477a0c22",
+   "rows": 77
+  },
+  "croatia/2026.json": {
+   "sha256": "ecbff8050310a62c02b36e429156fe9c67fddf8ab292384b90e4542d075abd21",
+   "rows": 159
+  },
+  "croatia/2026/zagreb-county.json": {
+   "sha256": "d511ec6cd5d2d696885812a7b59afb937f029ef80219527402854b0441c6b6a5",
+   "rows": 74
+  },
+  "croatia/2026/krapina-zagorje.json": {
+   "sha256": "f978765676b5b82a5113c51ae02655834f674bd97fb8565f8341d43d38e5aed8",
+   "rows": 72
+  },
+  "croatia/2026/sisak-moslavina.json": {
+   "sha256": "43b1da5cb7ac4583e5f90f292bea2a9cb52baa321ec96ef79d88f919c120606c",
+   "rows": 46
+  },
+  "croatia/2026/karlovac.json": {
+   "sha256": "eaebc4de60d7c0cfceaa83094e6a7ee49b0b236557d5e0fde8cd5cb10e64300e",
+   "rows": 52
+  },
+  "croatia/2026/varazdin.json": {
+   "sha256": "886eafb832aa8c2fd36e39def56c0cd8faf0dadc8aa1baccbadac88a69db9e15",
+   "rows": 64
+  },
+  "croatia/2026/koprivnica-krizevci.json": {
+   "sha256": "c771cb00b2902d52d0236647846c35bf5a71c3cf96dde4252f798d3543deb2f0",
+   "rows": 58
+  },
+  "croatia/2026/bjelovar-bilogora.json": {
+   "sha256": "50c3d864e3bbb1548759d4508d64cf0f7d562be446875b30334cfa17974dc3de",
+   "rows": 54
+  },
+  "croatia/2026/primorje-gorski-kotar.json": {
+   "sha256": "bb32c6cf1d717ec2a5d2609d94103167fbce9351abad77d261d4036f760f81e0",
+   "rows": 80
+  },
+  "croatia/2026/lika-senj.json": {
+   "sha256": "d95f1bce5fbfe3c42899854dfa8a835c73c202dce554c7fb35aa800eb79dbbd9",
+   "rows": 32
+  },
+  "croatia/2026/virovitica-podravina.json": {
+   "sha256": "0f3d7b09f9a01b388c02bfebbfbd6065032eaee891c1ebc99b1ae7bf2eeb5a26",
+   "rows": 40
+  },
+  "croatia/2026/pozega-slavonia.json": {
+   "sha256": "283ed6e4bf49fbd1b225c3ee9bf5cb320698c9910bda82ad6e19c2aa71cd4f3f",
+   "rows": 28
+  },
+  "croatia/2026/brod-posavina.json": {
+   "sha256": "3f62140a712caf0f44ac9b5908c576f52f231c2d79bb1f773f7b6f896f0d78c6",
+   "rows": 64
+  },
+  "croatia/2026/zadar.json": {
+   "sha256": "d5237559a99ca8bbb3f41c9b1c890f2ebcf87a7059010af8cf493f8f04b770ff",
+   "rows": 76
+  },
+  "croatia/2026/osijek-baranja.json": {
+   "sha256": "0a3d72494ff69ac01747c74a64d58eda3e71ce857ef79e5cff08ee2aa55de686",
+   "rows": 92
+  },
+  "croatia/2026/sibenik-knin.json": {
+   "sha256": "b76efb134c040851537ac5ebe1d31ef54d45507292ff83579587809c092d03f8",
+   "rows": 48
+  },
+  "croatia/2026/vukovar-srijem.json": {
+   "sha256": "aae0c57ac5b9b30fc5fbc18db9a0e8b464dcb6645f6f9ce8e2376f1f9e055b6f",
+   "rows": 70
+  },
+  "croatia/2026/split-dalmatia.json": {
+   "sha256": "69b3a9e2289ecd7ff9710ca8f22113e931b2023753412e396f08c06edcef260f",
+   "rows": 118
+  },
+  "croatia/2026/istria.json": {
+   "sha256": "b156c2058563b6bae8219d7108b1fd1faffc6404326f52e3fb59a1dc591a41e4",
+   "rows": 90
+  },
+  "croatia/2026/dubrovnik-neretva.json": {
+   "sha256": "09b8626acebd3f414783aa777ef76c8e3899cb7ca3424d6c5f21ea4d471cc78b",
+   "rows": 52
+  },
+  "croatia/2026/medimurje.json": {
+   "sha256": "1fd30d21efdaad0e04061d2f65fdf5a7eeeef95090b3602a215dfee6494f7e49",
+   "rows": 58
+  },
+  "croatia/2026/city-of-zagreb.json": {
+   "sha256": "2c028aff64e6770cdddbb26a08a6469dbc27e8ec9d57a8ea4a7ddf2228c04ce9",
+   "rows": 10
+  },
+  "estonia/2026.json": {
+   "sha256": "60668697e14edc2fce16ce81bab586e98e1a4d7c86ae796a6823c40019147195",
+   "rows": 67
+  },
+  "bulgaria/2026.json": {
+   "sha256": "c1466ad9b03cbc2f5204ca25b5cc6251dac2654289cb02489b07da1bc8bf31dc",
+   "rows": 66
+  },
+  "lithuania/2026.json": {
+   "sha256": "4ea133adb04d5b0f313943cadcc290d72b19d882170c18d74fc09ba404c7729a",
+   "rows": 80
+  },
+  "malta/2026.json": {
+   "sha256": "b480a785618d91a46264a4a55f46c98c8a85b7c242008165edd6b74e93d22224",
+   "rows": 105
+  },
+  "cyprus/2026.json": {
+   "sha256": "989d4dd14d77d5f3592f3d175626d909dc3d66c3f39e4e05d8a8875f3b8286e5",
+   "rows": 114
+  },
+  "iceland/2026.json": {
+   "sha256": "0432bfae7854508aacf94cfc5773f57a1b79e53042150dab56a5887167ec9fc7",
+   "rows": 152
   }
  }
 }
