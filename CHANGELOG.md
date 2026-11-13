@@ -10,5 +10,5 @@ First version.
 - `calcbloc/tables`: bundled tax tables for offline use in Node (`loadTable`, `loadTablesWithRegions`, `listCountries`, `getCountry`, `manifest`), in the exact shape of `GET /api/v1/tax-tables/{country}/{year}`.
 - `calcbloc/tables/<country>`: one module per country with statically imported data, for bundlers, browsers and edge runtimes.
 - `taxFromBands()`, `bandBreakdown()`, `findSection()` and `bandsSection()` helpers.
-- Data of 12 November 2026: 37 countries, 242 national and regional tables, every row with its official source URL and retrieval date.
+- Data of 13 November 2026: 41 countries, 246 national and regional tables, every row with its official source URL and retrieval date.
 - Tests against official worked examples from Irish Revenue (USC), IRAS (Singapore income tax) and GOV.UK (dividend tax).

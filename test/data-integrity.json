@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-12",
+ "generatedAt": "2026-11-13",
  "files": {
   "us/2026.json": {
    "sha256": "2a979fdcd735ac2f35be9135c4423591bb0a4fd1697e31bbb7a89e3fca2afcfb",
@@ -968,6 +968,22 @@
   "iceland/2026.json": {
    "sha256": "0432bfae7854508aacf94cfc5773f57a1b79e53042150dab56a5887167ec9fc7",
    "rows": 152
+  },
+  "ukraine/2026.json": {
+   "sha256": "3ae4b71fd9c51fb22fd3e95f928d20aae8b73d055220cf794f0eaebcc5a46e84",
+   "rows": 164
+  },
+  "liechtenstein/2026.json": {
+   "sha256": "a994e5902c47de171f9b1d2549b685da1f27fb75db67b72e55e30ac87a49e718",
+   "rows": 252
+  },
+  "serbia/2026.json": {
+   "sha256": "3b640d2a4f504e3a2e5aada9cf0973b59f3466569def59e8528b8ca7f33572a5",
+   "rows": 188
+  },
+  "turkey/2026.json": {
+   "sha256": "3923dee7f6a306526ec585db53f70cf671c93e4ff296f0db0dd5f4e564a20837",
+   "rows": 212
   }
  }
 }

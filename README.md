@@ -254,8 +254,12 @@ Figures can change during a tax year and are provided as published, without warr
 | [Malta](https://calcbloc.com/malta/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `malta` | 2026 | – | 11 Nov 2026 |
 | [Cyprus](https://calcbloc.com/cyprus/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `cyprus` | 2026 | – | 11 Nov 2026 |
 | [Iceland](https://calcbloc.com/iceland/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `iceland` | 2026 | – | 11 Nov 2026 |
+| [Ukraine](https://calcbloc.com/ukraine/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `ukraine` | 2026 | – | 12 Nov 2026 |
+| [Liechtenstein](https://calcbloc.com/liechtenstein/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `liechtenstein` | 2026 | – | 13 Nov 2026 |
+| [Serbia](https://calcbloc.com/serbia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `serbia` | 2026 | – | 13 Nov 2026 |
+| [Türkiye](https://calcbloc.com/turkey/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `turkey` | 2026 | – | 13 Nov 2026 |
 
-37 countries, generated from the bundled `manifest.json` (data of 12 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
+41 countries, generated from the bundled `manifest.json` (data of 13 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
 
 In preparation: Belgium.
 <!-- coverage:end -->
