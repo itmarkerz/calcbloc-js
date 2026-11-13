@@ -206,6 +206,7 @@ When the free allowance without a key is used up, the client throws a `RateLimit
 - **Where the data comes from:** each figure is taken from the tax authority or legislation (for example HMRC and GOV.UK, the IRS and state revenue departments, the Canada Revenue Agency, Australian federal and state legislation, Inland Revenue NZ, Irish Revenue, IRAS, official gazettes and finance ministries) and checked by CalcBloc. Every section has a `source` and every flat row a `source_url` and `retrieved_at`; the manifest lists each country's `sourceUrls` and `lastVerified` date.
 - **Same data as the website and the API:** the tables are published at [calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss), served by the [API](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) and shown on each country's tax-tables page (`pageUrl`).
 - **Data licence: CC BY 4.0.** You may use, share and adapt the tables, including commercially, with credit: **"Data by CalcBloc (calcbloc.com/data)"** and a link to [https://calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss). The API's own terms ask for a visible link to calcbloc.com wherever API figures are shown ([terms](https://calcbloc.com/developers/terms?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss)).
+- The canonical, most recent version of each table is its country page on calcbloc.com.
 - **Code licence: MIT** (see [LICENSE](LICENSE)).
 - **Copyright:** © 2026 itmarkerz technologies (code and data). CalcBloc is a product of itmarkerz technologies.
 
@@ -214,7 +215,7 @@ Figures can change during a tax year and are provided as published, without warr
 ## Coverage
 
 <!-- coverage:start -->
-| Country | id | Tax years | Regions | Last verified |
+| Country | id | Tax years | Regions | Last checked |
 | --- | --- | --- | --- | --- |
 | [United States](https://calcbloc.com/us/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `us` | 2026 | 51 | 9 Nov 2026 |
 | [United Kingdom](https://calcbloc.com/uk/tax-tables/2026-27?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uk` | 2026-27, 2025-26 | 2 | 9 Nov 2026 |

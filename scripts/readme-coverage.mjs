@@ -44,7 +44,7 @@ const fmtDate = (d) => {
 };
 
 const lines = [
-  "| Country | id | Tax years | Regions | Last verified |",
+  "| Country | id | Tax years | Regions | Last checked |",
   "| --- | --- | --- | --- | --- |",
 ];
 let unpublished = 0;
