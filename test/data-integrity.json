@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-13",
+ "generatedAt": "2026-11-14",
  "files": {
   "us/2026.json": {
    "sha256": "ee59f5b7fb6c6f4619a15ae6f044fbd3391da7b59de475eb448470c26741d912",
@@ -302,108 +302,108 @@
    "rows": 144
   },
   "india/2026-27.json": {
-   "sha256": "767aebf2ca544cefb0cfe3980ac14a40464d50b229ace8aaa0f66a9e777a5625",
-   "rows": 190
+   "sha256": "93a36b9ad3650ac5d44e597949a50c578eb496c74a410c1112893f729f654b0f",
+   "rows": 270
   },
   "germany/2026.json": {
-   "sha256": "0dc254d9520fc29b11a6507dc65e2bb32b1280282aeccec9809fa3cfd3160f8e",
-   "rows": 85
+   "sha256": "f774ac72ea4e53921f5524a5ab7f701facd6a63445987eeb0ba52bd7a9009844",
+   "rows": 204
   },
   "spain/2026.json": {
-   "sha256": "8ed5c6c0bf225ef03d88eba74b5b059b08913546f9ae452b78f60f9500f1742d",
-   "rows": 90
+   "sha256": "ec2c23dfb291fa974f77f9c1ce502c6fe674ea753408b0c0e38302043bd5004c",
+   "rows": 196
   },
   "spain/2026/md.json": {
-   "sha256": "cc082a0402a53197dacfdf1b6aeb6d92950baa90aa4acf5d38a33d18c77dbf24",
-   "rows": 13
-  },
-  "spain/2026/ct.json": {
-   "sha256": "9a5ba5ce457309e6d4eca3398d10190390016437f46c3267ce4b1880a89cae55",
-   "rows": 9
-  },
-  "spain/2026/an.json": {
-   "sha256": "6c6c60055aa42446e79b96318f069b4a46f4ab447b85374d8d6c79372a5de62d",
-   "rows": 13
-  },
-  "spain/2026/vc.json": {
-   "sha256": "c802d96414f6ebcd6c8511e164192d764d6abcfc98bc75908afb10c619779794",
-   "rows": 19
-  },
-  "spain/2026/ga.json": {
-   "sha256": "cef739f7960e078617a3084885780f550fdd74469dc143de248fdf0746939602",
-   "rows": 13
-  },
-  "spain/2026/cl.json": {
-   "sha256": "a0fd3dd24d3954dc6a8db64f1980dac6ca4265d8050595ecf6ad5e8ad6fc9232",
-   "rows": 6
-  },
-  "spain/2026/ar.json": {
-   "sha256": "d2c7f246131ddfba643919b568da9ed0a70b1e67ef58656fc68e9438e4c51edb",
-   "rows": 10
-  },
-  "spain/2026/cn.json": {
-   "sha256": "a2227af7dda9bf9bc5511f7a482de2825100699bf9301a73ef167783e6806975",
-   "rows": 15
-  },
-  "spain/2026/cm.json": {
-   "sha256": "07b9cc3455dc404c7ab37690a4fff8697f011b42a4f7684cbf5c18d314990be1",
-   "rows": 6
-  },
-  "spain/2026/mc.json": {
-   "sha256": "8954272049e9126d8a45d401a31a4f848a5f8fbfb83fe6fa716fbc73eb2f0819",
-   "rows": 6
-  },
-  "spain/2026/as.json": {
-   "sha256": "905412cdf9a91f986b7fa0c5f29651b865923e5575f1077754e5fc0940547c50",
-   "rows": 16
-  },
-  "spain/2026/ib.json": {
-   "sha256": "fb91933391351eba997ab10a16ab0e69d0cc895ba8543f2e23927ca544743a0b",
+   "sha256": "9515c096f9203691cc3ab72167234688b6b6be3c162bd8bd5a24e476418e2d28",
    "rows": 17
   },
-  "spain/2026/ex.json": {
-   "sha256": "88733f7993a0af541903642f6f626c0cf3dd80c32576150789efca96aa238784",
+  "spain/2026/ct.json": {
+   "sha256": "f053268a72d9273cf0ea1812f05724af22f065bc539c36db60435595d8715814",
+   "rows": 17
+  },
+  "spain/2026/an.json": {
+   "sha256": "4307a4ed6293676ff892c0d1e39225eeb772ae6d316182474f37f0377955775f",
+   "rows": 17
+  },
+  "spain/2026/vc.json": {
+   "sha256": "e0145ef13cb8f3b8f84692e0896d773e8d1ef43259ce702cafa8bf5546fca258",
+   "rows": 24
+  },
+  "spain/2026/ga.json": {
+   "sha256": "5e5a9643f57f6a9d76494a60dd3b470e008d8c2193ee1070c81e8d3dca37ec3c",
+   "rows": 17
+  },
+  "spain/2026/cl.json": {
+   "sha256": "99dff920879ad3b5c6f9a73fd2087e87145e27bb48c0a5706ad066412d8ec2e5",
    "rows": 10
   },
-  "spain/2026/cb.json": {
-   "sha256": "4029aed93579a65e635710306f88ccba7a65dfef2acfce50d24068edb034c756",
-   "rows": 7
+  "spain/2026/ar.json": {
+   "sha256": "5f4f505fe5a3b4220400fa2365006a0ca96cd092170a259191191c9508455534",
+   "rows": 17
   },
-  "spain/2026/ri.json": {
-   "sha256": "ab1f50ab56a08b4468817fe908e6e9b7761559cb89ddc41dd20dd631495a6ab3",
+  "spain/2026/cn.json": {
+   "sha256": "5e7a7cfa1099c4b0d2d985b8367080ac68ee4a295796f396c3af9f405dc5598d",
+   "rows": 19
+  },
+  "spain/2026/cm.json": {
+   "sha256": "273263798bb08fb113e9f5a5652244f3225a282244de33ac4af972badda1989e",
+   "rows": 10
+  },
+  "spain/2026/mc.json": {
+   "sha256": "221306b61f89facc3c7c754a3cf7c8ff5072f5a7be74a32029b04e7d8dcaa0ac",
    "rows": 9
   },
+  "spain/2026/as.json": {
+   "sha256": "0f88e03602da90935607be8f5317deb051176c64110240e54f6e6586e91c1645",
+   "rows": 20
+  },
+  "spain/2026/ib.json": {
+   "sha256": "e6d73b9fb0445ae925b00792f9ffea2d73c03f3aeb61d1847b67d0cd9b216499",
+   "rows": 25
+  },
+  "spain/2026/ex.json": {
+   "sha256": "d684c5717942d630e148f41d7d63b182031c71f512f3e1e9366c5f93df2c9284",
+   "rows": 15
+  },
+  "spain/2026/cb.json": {
+   "sha256": "09009a5a952baed04ea9eb6bae24d929426fa1d0b538dc59144b7ba004283c5b",
+   "rows": 12
+  },
+  "spain/2026/ri.json": {
+   "sha256": "e44956405fdb524a3ea2575843b5c624042049643043709eb1cdf085cbaee5ae",
+   "rows": 12
+  },
   "spain/2026/ce.json": {
-   "sha256": "9182d23e8248d37aee380494792d7b308d3a25ec28821dad25e3b703ea99a460",
-   "rows": 7
+   "sha256": "5e7757ef104db87b4b6beccc6b33c1b797f0d6406638d299b2845a157511fe7b",
+   "rows": 11
   },
   "spain/2026/ml.json": {
-   "sha256": "0451faa5e1b9ab43db6e4e371582f214d3d5b36df2f82cdc3b7867a09585e3a8",
-   "rows": 7
+   "sha256": "ca8308462462a487ff383ef2aeefbb9125512526b04223307ef9db778eaaa375",
+   "rows": 11
   },
   "spain/2026/bi.json": {
-   "sha256": "7b8fbee11705c526b7f216481080c05df9e0c94e92498384f633a00797c5df3c",
-   "rows": 59
+   "sha256": "ac26a77de880302ebdbe51fe254b01913305bbbe5e46af7e51e9e277de1b25db",
+   "rows": 65
   },
   "spain/2026/gi.json": {
-   "sha256": "d4c09c02f60d256f3f2a6596626119eb91711bcbdf64dcebe4d9edd08ac7f782",
-   "rows": 59
+   "sha256": "d521b0c78a51828fa22dd00cb837bbfbc1346a8ab016a77fd24d617475dd62c2",
+   "rows": 64
   },
   "spain/2026/al.json": {
-   "sha256": "0dec1379952345e56f8fe648bb9d9a10155088d80fa639af2e20dc4420680f70",
-   "rows": 60
+   "sha256": "fcfaec494ad4a559bbef2f09d8e22525c7f66a303f42a232f9a7fca16406939e",
+   "rows": 67
   },
   "spain/2026/nc.json": {
-   "sha256": "d792a719f997658995eb9b636b40af1c6f111869362c7727d2551c746f5cc273",
-   "rows": 35
+   "sha256": "86e5067be42c02b1e97c93b4a258da7f1987acf06d726b5a7cc604e23db6defd",
+   "rows": 42
   },
   "netherlands/2026.json": {
-   "sha256": "fdc83c435de53d769b1f4964afe6ea51a8db4709956f77402ff20bd2435e0470",
-   "rows": 61
+   "sha256": "132effa1c5be9d71cad00bcb2f540685aff64bd01a858e214bf23976a16a8666",
+   "rows": 128
   },
   "france/2026.json": {
-   "sha256": "1c4846d2551cc4b9c573b52616159895bf04d4ce595d588d27cd902674cc7b88",
-   "rows": 158
+   "sha256": "744d15b5b77ad760892004b1ce317e20caeb8ab0e6fa6929f93ff6fa9f0cadd5",
+   "rows": 361
   },
   "singapore/2026.json": {
    "sha256": "78ab555e922c7b4bd680b7d266f32c59cd54b10ba2717bc8d7a953f20b24b8fc",
@@ -414,92 +414,92 @@
    "rows": 56
   },
   "italy/2026.json": {
-   "sha256": "16ecba1749f0261b32f0f96f7e0dd24cf6ff6d413b58dd64bfdf4c4825db461b",
-   "rows": 101
+   "sha256": "2b84616f5ed3141f32667ccd296436990ac00786bb6e5b44eb9870526a13a7bb",
+   "rows": 187
   },
   "italy/2026/abr.json": {
-   "sha256": "3b779e6b45ea0fb166fa1f4b17f0ebb6c883f7122d8892638f91e9fa61a6874e",
-   "rows": 10
+   "sha256": "d2c2bff54187ea9dfff907af9736cb43ffc41196e722cb878f701dd845cb872c",
+   "rows": 15
   },
   "italy/2026/bas.json": {
-   "sha256": "700269887e67371791073cc7a5368a8f32808abca35c126208fd7c9c6b8cf467",
-   "rows": 9
-  },
-  "italy/2026/bz.json": {
-   "sha256": "356852e4c341f61c51e0746dac81ed52f4039d32e06c72f8b791256be2776470",
-   "rows": 9
-  },
-  "italy/2026/cal.json": {
-   "sha256": "c6a20413a9bf5603683bea3dd493b24ce0efc19943c430114f7134b47566f068",
-   "rows": 7
-  },
-  "italy/2026/cam.json": {
-   "sha256": "33ef2c4f6896173260b3401197c3a3268d5a19699525fb07ebac860c00beda62",
-   "rows": 11
-  },
-  "italy/2026/emr.json": {
-   "sha256": "6873264f939160178daa50597a9d617c5539aa9aca633dbfc3f20deeaf646615",
-   "rows": 11
-  },
-  "italy/2026/fvg.json": {
-   "sha256": "a8eff2b7c2232671e2f9a03ba3267edc0be6b672de1dbe5624166830891acf80",
-   "rows": 11
-  },
-  "italy/2026/laz.json": {
-   "sha256": "7a2fff024280b782b0c1e7042a0d552764838200fef96bb811c10a3413e60480",
-   "rows": 11
-  },
-  "italy/2026/lig.json": {
-   "sha256": "2634e799c297b7393b15bc33a77bdae9e44763f1b21ab3f1da87e8796139c5fc",
-   "rows": 12
-  },
-  "italy/2026/lom.json": {
-   "sha256": "e75f7b67fa3b4e029099d5172c1c04a072325e27a0446a20094f3fdb6fe531b7",
-   "rows": 11
-  },
-  "italy/2026/mar.json": {
-   "sha256": "72b339e50c27b397fc26804cff71c958ff032caf2153b625ca47fc4ebfc55d85",
-   "rows": 10
-  },
-  "italy/2026/mol.json": {
-   "sha256": "00c99c55ca0c65bd422d5bdf51168bc3fef57d8bc8ec654587a64ff0d110abb8",
-   "rows": 10
-  },
-  "italy/2026/pie.json": {
-   "sha256": "105bc5eefc109d2fb799576112fdf25f282a8aec4876eefbb2b2677c879db941",
+   "sha256": "75d0b1dd032d4cc93a286c5465300689efc5f0f185d570802809ef117d9a08be",
    "rows": 14
   },
+  "italy/2026/bz.json": {
+   "sha256": "d79789ee51543256cb5edc022c2190c69f0fdfbf858a0c8cd5b9fac5ab1107b3",
+   "rows": 17
+  },
+  "italy/2026/cal.json": {
+   "sha256": "0f84e3f823f3b9aae783feae463ec0d111ad89dce210a3d53c1e08924a2445b4",
+   "rows": 12
+  },
+  "italy/2026/cam.json": {
+   "sha256": "e605defa3b6191ddc1832ef767bf9755a44b9866f44c1edfaa836d5df5f8b75d",
+   "rows": 16
+  },
+  "italy/2026/emr.json": {
+   "sha256": "41a60d684d26db08c336741af21818e8a1f93df377c74198aea07e17ce7b2600",
+   "rows": 16
+  },
+  "italy/2026/fvg.json": {
+   "sha256": "fab875189a9c99cc68d9d13a9e5ec24a7356789187117c82e2e8d6788a701f7e",
+   "rows": 19
+  },
+  "italy/2026/laz.json": {
+   "sha256": "b2a80d440ddb93781199029056f5898d592bc401f6d543539e9ff4089a0fc19a",
+   "rows": 16
+  },
+  "italy/2026/lig.json": {
+   "sha256": "0989a183d415089354493f89eddf16217aaf5558258dbae0664282e40b05609f",
+   "rows": 17
+  },
+  "italy/2026/lom.json": {
+   "sha256": "d8520cc531e3c37343b6cb162dc555694029a6ebf43142184b8efc5508abed68",
+   "rows": 16
+  },
+  "italy/2026/mar.json": {
+   "sha256": "96b2f2e78c08b67ae48255f9cbcc5216b64531b4a4beb1309e2594b5e242d6e3",
+   "rows": 15
+  },
+  "italy/2026/mol.json": {
+   "sha256": "67c9318e9c111d4b20bde8a4f0dfe160beff847de8c3355ac2d4526ef400b32b",
+   "rows": 15
+  },
+  "italy/2026/pie.json": {
+   "sha256": "ff2b88320b10b258ea4561837c950fd5d779c3e5043706b5718b98c47bbd63e9",
+   "rows": 19
+  },
   "italy/2026/pug.json": {
-   "sha256": "484f667dabcf10be4b3cf15b72b326313adfb9fe193bd3289f2d86115ff40be0",
-   "rows": 11
+   "sha256": "c4e8efda558e93423c5f2fbd969a04439aa1b824f8bd98b89cf9e8e756f628ed",
+   "rows": 16
   },
   "italy/2026/sar.json": {
-   "sha256": "02f2ea69ce77c52f432e68cd55126f54db724c0502bfb4d955917133e87ef290",
-   "rows": 11
+   "sha256": "254805f1c84082cd4664a46dcd88929cdeb51c9cc4a6d119d8bc9801d5729846",
+   "rows": 16
   },
   "italy/2026/sic.json": {
-   "sha256": "15ba5de76c650602402656ba7d25d8edd1fb41f434808b7600014d35b08317c6",
-   "rows": 7
+   "sha256": "60c07cf2d4a92c61e0efe1be01ef62c8b5180773e7290c0d25b875bd98264de1",
+   "rows": 12
   },
   "italy/2026/tos.json": {
-   "sha256": "87da574ff3a954816c1df4443d32083280790a7f3a742f201b0fd8b6d32fcfbd",
-   "rows": 11
+   "sha256": "891d1e03e7637b055fe4f81dcb6c3dccdee51145659069c41ba06d80213c59fa",
+   "rows": 16
   },
   "italy/2026/tn.json": {
-   "sha256": "e43ae669f49ba91d11a1679f8d0bdac5da9ecf895282c08e5ece15e020c7e657",
-   "rows": 8
+   "sha256": "3b962a9502343ab69c9a0befbd1df97cfd4f07f0f017c1ab5a72aa128a91de57",
+   "rows": 16
   },
   "italy/2026/umb.json": {
-   "sha256": "ba8d60b62e304d17f726c37b7676fcbf46abe569324f4b34464c84b6e41d3954",
-   "rows": 11
+   "sha256": "269de167f2f6433f85df967662c9927df7868dea84cb76444a7e91ca7e9a4175",
+   "rows": 16
   },
   "italy/2026/vda.json": {
-   "sha256": "6ebcda2e58275ded948b524f91a3bae9a2ebec2701fba21a50356c6775a38f5d",
-   "rows": 8
+   "sha256": "7a0cc9f855b1d334bff47c3fb3b4bf73615fdc252542108f7101fd088fb51f1d",
+   "rows": 13
   },
   "italy/2026/ven.json": {
-   "sha256": "c533d587d8b0e057b6f6a0d09193fef13a2297e03c59c11b690f24a1bfe8de03",
-   "rows": 8
+   "sha256": "107cfabbfd6b23867bf3725695d486705ea07064390ac187816212ea2a8d46cc",
+   "rows": 13
   },
   "portugal/2026.json": {
    "sha256": "ea0adc4ffe66e46b80c4c28fe54aab7e2eb6eeb1befa8b0966ec741bb00949de",

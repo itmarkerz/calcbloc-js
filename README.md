@@ -223,14 +223,14 @@ Figures can change during a tax year and are provided as published, without warr
 | [New Zealand](https://calcbloc.com/new-zealand/tax-tables/2026-27?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `new-zealand` | 2026-27 | – | 13 Nov 2026 |
 | [Canada](https://calcbloc.com/canada/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `canada` | 2026 | 13 | 13 Nov 2026 |
 | [Ireland](https://calcbloc.com/ireland/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `ireland` | 2026 | – | 13 Nov 2026 |
-| [India](https://calcbloc.com/india/tax-tables/2026-27?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `india` | 2026-27 | – | 11 Nov 2026 |
-| [Germany](https://calcbloc.com/germany/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `germany` | 2026 | – | 9 Nov 2026 |
-| [Spain](https://calcbloc.com/spain/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `spain` | 2026 | 21 | 9 Nov 2026 |
-| [Netherlands](https://calcbloc.com/netherlands/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `netherlands` | 2026 | – | 9 Nov 2026 |
-| [France](https://calcbloc.com/france/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `france` | 2026 | – | 9 Nov 2026 |
+| [India](https://calcbloc.com/india/tax-tables/2026-27?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `india` | 2026-27 | – | 14 Nov 2026 |
+| [Germany](https://calcbloc.com/germany/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `germany` | 2026 | – | 13 Nov 2026 |
+| [Spain](https://calcbloc.com/spain/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `spain` | 2026 | 21 | 13 Nov 2026 |
+| [Netherlands](https://calcbloc.com/netherlands/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `netherlands` | 2026 | – | 13 Nov 2026 |
+| [France](https://calcbloc.com/france/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `france` | 2026 | – | 13 Nov 2026 |
 | [Singapore](https://calcbloc.com/singapore/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `singapore` | 2026 | – | 9 Nov 2026 |
 | [United Arab Emirates](https://calcbloc.com/uae/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uae` | 2026 | – | 9 Nov 2026 |
-| [Italy](https://calcbloc.com/italy/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `italy` | 2026 | 21 | 9 Nov 2026 |
+| [Italy](https://calcbloc.com/italy/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `italy` | 2026 | 21 | 13 Nov 2026 |
 | [Portugal](https://calcbloc.com/portugal/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `portugal` | 2026 | 2 | 9 Nov 2026 |
 | [Switzerland](https://calcbloc.com/switzerland/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `switzerland` | 2026 | 26 | 9 Nov 2026 |
 | [Denmark](https://calcbloc.com/denmark/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `denmark` | 2026 | 5 | 9 Nov 2026 |
@@ -259,7 +259,7 @@ Figures can change during a tax year and are provided as published, without warr
 | [Serbia](https://calcbloc.com/serbia/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `serbia` | 2026 | – | 13 Nov 2026 |
 | [Türkiye](https://calcbloc.com/turkey/tax-tables/2026?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) | `turkey` | 2026 | – | 13 Nov 2026 |
 
-41 countries, generated from the bundled `manifest.json` (data of 13 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
+41 countries, generated from the bundled `manifest.json` (data of 14 Nov 2026). **Regions** is the number of regional tables (states, provinces, cantons, nations...) bundled for the country; `listCountries()` returns their codes and names.
 
 In preparation: Belgium.
 <!-- coverage:end -->
