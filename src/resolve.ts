@@ -1,3 +1,4 @@
+import { resolveCountryKey } from "./country-codes";
 import { CalcBlocError } from "./errors";
 import { hydrateTable, type StoredTable } from "./rows";
 import type { Manifest, ManifestCountry, TaxTable } from "./types";
@@ -20,8 +21,12 @@ export interface ResolvedFile {
 
 const DOCS = "https://calcbloc.com/developers";
 
+/**
+ * The manifest entry for a country given by its key ("new-zealand"), short code ("nz", "gb" for the UK), ISO code
+ * ("NZ") or English name ("New Zealand"), case-insensitively.
+ */
 export function findCountry(manifest: Manifest, country: string): ManifestCountry | undefined {
-  const id = String(country ?? "").trim().toLowerCase();
+  const id = resolveCountryKey(String(country ?? ""), Object.fromEntries(manifest.countries.map((c) => [c.country, c.name]))) ?? String(country ?? "").trim().toLowerCase();
   return manifest.countries.find((c) => c.country === id);
 }
 

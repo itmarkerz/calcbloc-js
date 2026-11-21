@@ -1,3 +1,4 @@
+import { resolveCountryKey } from "./country-codes";
 import { CalcBlocError, RateLimitError } from "./errors";
 import type {
   ApiErrorBody,
@@ -27,8 +28,9 @@ export type FetchLike = (url: string, init: { method: "GET"; headers: Record<str
 export interface CalcBlocOptions {
   /**
    * Free API key from https://calcbloc.com/developers/keys, sent in the X-API-Key header. In Node it defaults to the
-   * CALCBLOC_API_KEY environment variable. Optional: without a key every endpoint works for 50 requests a day and
-   * 5 a minute per IP address; a free key allows 5,000 a day and 60 a minute.
+   * CALCBLOC_API_KEY environment variable. Optional: without a key every endpoint works within a free daily and
+   * per-minute allowance per IP address; a free key (email only) allows much more. The current limits are listed at
+   * https://calcbloc.com/developers#limits.
    */
   apiKey?: string;
   /** Default https://calcbloc.com */
@@ -59,13 +61,17 @@ const SEGMENT = /^[A-Za-z0-9-]{1,40}$/;
 /** Where to get a free API key; linked from the RateLimitError raised when the free allowance without a key is used up. */
 export const KEYS_URL = "https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=app&utm_campaign=itmarkerz-oss";
 
-/** The 429 message without a key: the free allowance is used up; add a free key and how to set it. */
-function noKeyLimitMessage(apiMessage: string, retryAfter: number | null): string {
+/**
+ * The 429 message without a key: the free allowance is used up; add a free key and how to set it. Limits are not
+ * typed in here: the daily figure is quoted only when the API has reported it in X-RateLimit-Limit.
+ */
+function noKeyLimitMessage(apiMessage: string, retryAfter: number | null, dailyLimit: number | null): string {
   const perMinute = /minute/i.test(apiMessage) && (retryAfter === null || retryAfter <= 60);
+  const perDay = dailyLimit ? ` (${dailyLimit.toLocaleString("en-US")} requests a day)` : "";
   const usedUp = perMinute
-    ? "The free allowance without a key (5 requests a minute, 50 a day) is used up for this minute."
-    : "The free allowance of 50 requests a day without a key is used up.";
-  return `${usedUp} Add your free API key (5,000 requests a day): ${KEYS_URL} (set it with new CalcBloc({ apiKey }) or the CALCBLOC_API_KEY environment variable).`;
+    ? "The free per-minute allowance without a key is used up for this minute."
+    : `The free daily allowance without a key${perDay} is used up.`;
+  return `${usedUp} Get a free API key (email only, much higher limits): ${KEYS_URL} and set it with new CalcBloc({ apiKey }) or the CALCBLOC_API_KEY environment variable.`;
 }
 
 function envApiKey(): string | undefined {
@@ -102,6 +108,8 @@ export class CalcBloc {
   readonly #fetch: FetchLike;
   readonly #timeoutMs: number;
   readonly #headers: Record<string, string>;
+  /** The daily request limit the API last reported (X-RateLimit-Limit), quoted in the keyless 429 message. */
+  #dailyLimit: number | null = null;
 
   constructor(options: CalcBlocOptions = {}) {
     this.baseUrl = (options.baseUrl ?? "https://calcbloc.com").replace(/\/+$/, "");
@@ -123,11 +131,16 @@ export class CalcBloc {
     return this.#getJson("/api/v1/countries", {}, options);
   }
 
-  /** GET /api/v1/tax-tables/{country}/{year}: official income tax brackets, social security rates and thresholds. */
+  /**
+   * GET /api/v1/tax-tables/{country}/{year}: official income tax brackets, social security rates and thresholds.
+   * `country` is a key ("new-zealand"), short code ("nz"), ISO code ("NZ") or English name ("New Zealand").
+   */
   taxTables(country: string, options?: TaxTablesOptions & { format?: "json" }): Promise<TaxTable>;
   taxTables(country: string, options: TaxTablesOptions & { format: "csv" }): Promise<string>;
   taxTables(country: string, options: TaxTablesOptions = {}): Promise<TaxTable | string> {
     const year = options.year ?? "latest";
+    // Short codes ("nz"), ISO codes ("NZ") and English names ("New Zealand") become the country key ("new-zealand").
+    if (typeof country === "string") country = resolveCountryKey(country) ?? country;
     for (const [name, v] of [["country", country], ["year", year]] as const)
       if (typeof v !== "string" || !SEGMENT.test(v)) return Promise.reject(new CalcBlocError("invalid_parameter", `Invalid ${name} "${String(v).slice(0, 40)}": use letters, digits and hyphens (e.g. "uk", "2026-27", "latest").`, { status: 0 }));
     const path = `/api/v1/tax-tables/${encodeURIComponent(country.toLowerCase())}/${encodeURIComponent(year)}`;
@@ -188,6 +201,7 @@ export class CalcBloc {
     const remaining = num(res.headers.get("x-ratelimit-remaining"));
     const reset = num(res.headers.get("x-ratelimit-reset"));
     if (limit !== null && remaining !== null) this.rateLimit = { limit, remaining, resetSeconds: reset ?? 0 };
+    if (limit !== null && Number.isInteger(limit) && limit > 0) this.#dailyLimit = limit;
 
     const text = await res.text();
     if (res.ok) return { text, status: res.status };
@@ -204,7 +218,7 @@ export class CalcBloc {
     const common = { status: res.status, docs, details: Object.keys(details).length ? details : undefined };
     if (res.status === 429 || code === "rate_limited") {
       const retryAfter = num(res.headers.get("retry-after"));
-      throw new RateLimitError(this.#apiKey ? message : noKeyLimitMessage(message, retryAfter), { ...common, retryAfter, limit, remaining, resetSeconds: reset });
+      throw new RateLimitError(this.#apiKey ? message : noKeyLimitMessage(message, retryAfter, this.#dailyLimit), { ...common, retryAfter, limit, remaining, resetSeconds: reset });
     }
     throw new CalcBlocError(code, message, common);
   }

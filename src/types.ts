@@ -188,6 +188,10 @@ export interface EndpointParameter {
   max?: number;
   default?: string | number | boolean;
   unit?: string;
+  /** API 1.7+: display name of each enum value (e.g. "ca" → "California"). */
+  labels?: Record<string, string>;
+  /** API 1.7+: accepted spellings of enum values → canonical value (e.g. "married" → "mfj"). */
+  aliases?: Record<string, string>;
   description: string;
 }
 
@@ -209,7 +213,12 @@ export interface TaxTablesEndpointInfo {
 }
 
 export interface ApiCountry {
+  /** Country key used in responses and URLs, e.g. "uk", "new-zealand". */
   code: string;
+  /** API 1.7+: short code accepted as `country` (ISO 3166-1 alpha-2 in lower case; the UK is "uk"), e.g. "nz". */
+  short_code?: string;
+  /** API 1.7+: ISO 3166-1 alpha-2 code, e.g. "NZ". */
+  iso_code?: string;
   name: string;
   currency: string;
   years: string[];
@@ -228,7 +237,28 @@ export interface ApiCountry {
 /** GET /api/v1/countries */
 export interface CountriesResponse {
   countries: ApiCountry[];
+  /** API 1.7+: what the API covers, counted by the API itself. Country lists use short codes. */
+  coverage?: ApiCoverage;
   attribution: Attribution;
+}
+
+/** API 1.7+: the `coverage` object of GET /api/v1/countries. */
+export interface ApiCoverage {
+  tax_tables: number;
+  net_salary: number;
+  employer_cost: number;
+  compare: number;
+  tables_only?: number;
+  net_salary_countries?: string[];
+  employer_cost_countries?: string[];
+  compare_countries?: string[];
+  /** Countries where `region` is required, per endpoint. */
+  region_required: { "net-salary": string[]; "employer-cost": string[] };
+  region_optional?: { "net-salary": string[]; "employer-cost": string[] };
+  not_supported?: string;
+  /** One sentence with the counts. */
+  summary: string;
+  [key: string]: unknown;
 }
 
 export interface NetSalarySummary {
@@ -323,13 +353,20 @@ export type ParamValue = string | number | boolean;
  * depends on the country (see `countries()` → endpoints[...].parameters, or https://calcbloc.com/developers).
  */
 export interface CalculationParams {
-  /** Country id, e.g. "uk", "us", "new-zealand". */
+  /**
+   * Country: a short code ("uk", "us", "nz", "de"; ISO 3166-1 alpha-2 in lower case, the UK as "uk" or "gb"), an
+   * English name, or the older key ("new-zealand", "germany"). Responses carry the older key in `country`.
+   */
   country: string;
   /** Annual salary in the country's currency (India net-salary: annual CTC). */
   salary: number;
   /** "latest" (default) or the current tax year; calculations use the current year only. */
   year?: string;
-  /** Region code where the country has regions (US state, Canadian province, UK nation...). */
+  /**
+   * Region code where the country has regions (US state, Canadian province, UK nation...). Required for take-home
+   * pay in the US and Canada and for employer cost in the US, Australia and Canada (listed in `coverage.region_required`
+   * of `countries()`); without it the API answers 400 `missing_parameter` with the valid codes.
+   */
   region?: string;
   [param: string]: ParamValue | undefined;
 }

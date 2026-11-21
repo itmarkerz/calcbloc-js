@@ -31,7 +31,7 @@ const apiError = (code: string, message: string) => ({ error: { code, message, d
 
 describe("CalcBloc client (mocked fetch)", () => {
   it("countries(): GET /api/v1/countries without a key, with JSON Accept and a calcbloc-js User-Agent", async () => {
-    const { fetch, calls } = mockFetch(200, { countries: [], attribution }, { "X-RateLimit-Limit": "50", "X-RateLimit-Remaining": "49", "X-RateLimit-Reset": "3600" });
+    const { fetch, calls } = mockFetch(200, { countries: [], attribution }, { "X-RateLimit-Limit": "300", "X-RateLimit-Remaining": "299", "X-RateLimit-Reset": "3600" });
     const client = new CalcBloc({ fetch, apiKey: "" });
     const res = await client.countries();
     expect(res.countries).toEqual([]);
@@ -39,7 +39,7 @@ describe("CalcBloc client (mocked fetch)", () => {
     expect(calls[0].headers.Accept).toBe("application/json");
     expect(calls[0].headers["X-API-Key"]).toBeUndefined();
     expect(calls[0].headers["User-Agent"]).toBe(`calcbloc-js/${VERSION}`);
-    expect(client.rateLimit).toEqual({ limit: 50, remaining: 49, resetSeconds: 3600 });
+    expect(client.rateLimit).toEqual({ limit: 300, remaining: 299, resetSeconds: 3600 });
   });
 
   it("taxTables(): latest by default, region and year in the right places, returns the table", async () => {
@@ -51,6 +51,23 @@ describe("CalcBloc client (mocked fetch)", () => {
     expect(t.region?.code).toBe("scotland");
     await client.taxTables("uk", { year: "2025-26" });
     expect(calls[1].url).toBe("https://example.test/api/v1/tax-tables/uk/2025-26");
+  });
+
+  it("taxTables(): short codes, ISO codes and English names become the country key in the path", async () => {
+    const { fetch, calls } = mockFetch(200, {});
+    const client = new CalcBloc({ fetch });
+    for (const id of ["nz", "NZ", "New Zealand", "new-zealand"]) await client.taxTables(id);
+    await client.taxTables("gb", { year: "2026-27" });
+    await client.taxTables("de");
+    expect(calls.map((c) => c.url)).toEqual([
+      ...Array(4).fill("https://calcbloc.com/api/v1/tax-tables/new-zealand/latest"),
+      "https://calcbloc.com/api/v1/tax-tables/uk/2026-27",
+      "https://calcbloc.com/api/v1/tax-tables/germany/latest",
+    ]);
+    // Unknown plain ids are still sent as given (the API answers 404 unsupported_country); others are refused locally.
+    await client.taxTables("atlantis");
+    expect(calls[6].url).toBe("https://calcbloc.com/api/v1/tax-tables/atlantis/latest");
+    await expect(client.taxTables("New Atlantis")).rejects.toMatchObject({ code: "invalid_parameter" });
   });
 
   it("taxTables({ format: 'csv' }) returns text and asks for CSV", async () => {
@@ -122,29 +139,58 @@ describe("CalcBloc client (mocked fetch)", () => {
     expect(err.message).not.toContain("developers/keys");
   });
 
-  it("429 without a key → the free allowance is used up, with the keys link and how to set the key", async () => {
-    const { fetch, calls } = mockFetch(429, apiError("rate_limited", "Daily limit of 50 requests reached."), {
+  it("429 without a key → the free daily allowance is used up, quoting X-RateLimit-Limit, with the keys link and how to set the key", async () => {
+    const { fetch, calls } = mockFetch(429, apiError("rate_limited", "Daily limit of 300 requests reached."), {
       "Retry-After": "36000",
-      "X-RateLimit-Limit": "50",
+      "X-RateLimit-Limit": "300",
       "X-RateLimit-Remaining": "0",
       "X-RateLimit-Reset": "36000",
     });
     const err = await new CalcBloc({ fetch, apiKey: "" }).netSalary({ country: "uk", salary: 30000 }).catch((e) => e);
     expect(calls[0].headers["X-API-Key"]).toBeUndefined();
     expect(err).toBeInstanceOf(RateLimitError);
-    expect(err).toMatchObject({ code: "rate_limited", status: 429, retryAfter: 36000, remaining: 0 });
-    expect(err.message).toMatch(/^The free allowance of 50 requests a day without a key is used up\. Add your free API key \(5,000 requests a day\): /);
+    expect(err).toMatchObject({ code: "rate_limited", status: 429, retryAfter: 36000, limit: 300, remaining: 0 });
+    expect(err.message).toMatch(/^The free daily allowance without a key \(300 requests a day\) is used up\. Get a free API key \(email only, much higher limits\): /);
     expect(err.message).toContain(KEYS_URL);
     expect(KEYS_URL).toBe("https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=app&utm_campaign=itmarkerz-oss");
     expect(err.message).toContain("new CalcBloc({ apiKey })");
     expect(err.message).toContain("CALCBLOC_API_KEY");
   });
 
-  it("429 without a key on the per-minute limit says so", async () => {
-    const { fetch } = mockFetch(429, apiError("rate_limited", "Too many requests this minute (limit 5)."), { "Retry-After": "20" });
+  it("429 without a key and no limit seen → the daily message has no number", async () => {
+    const { fetch } = mockFetch(429, apiError("rate_limited", "Daily limit reached."), { "Retry-After": "36000" });
     const err = await new CalcBloc({ fetch, apiKey: "" }).countries().catch((e) => e);
-    expect(err.message).toMatch(/^The free allowance without a key \(5 requests a minute, 50 a day\) is used up for this minute\./);
+    expect(err.message).toMatch(/^The free daily allowance without a key is used up\. Get a free API key /);
+    expect(err.message).not.toMatch(/\d+ requests/);
     expect(err.message).toContain(KEYS_URL);
+    expect(err.message).toContain("CALCBLOC_API_KEY");
+  });
+
+  it("429 without a key remembers X-RateLimit-Limit from an earlier response", async () => {
+    let n = 0;
+    const fetch: FetchLike = async () => {
+      n++;
+      const headers: Record<string, string> = n === 1 ? { "x-ratelimit-limit": "1500", "x-ratelimit-remaining": "1" } : { "retry-after": "3600" };
+      return {
+        ok: n === 1,
+        status: n === 1 ? 200 : 429,
+        headers: { get: (h: string) => headers[h.toLowerCase()] ?? null },
+        text: async () => JSON.stringify(n === 1 ? { countries: [], attribution } : apiError("rate_limited", "Daily limit reached.")),
+      };
+    };
+    const client = new CalcBloc({ fetch, apiKey: "" });
+    await client.countries();
+    const err = await client.countries().catch((e) => e);
+    expect(err.message).toMatch(/^The free daily allowance without a key \(1,500 requests a day\) is used up\./);
+  });
+
+  it("429 without a key on the per-minute limit says so, without a number", async () => {
+    const { fetch } = mockFetch(429, apiError("rate_limited", "Too many requests this minute (limit 20)."), { "Retry-After": "20", "X-RateLimit-Limit": "300", "X-RateLimit-Remaining": "250" });
+    const err = await new CalcBloc({ fetch, apiKey: "" }).countries().catch((e) => e);
+    expect(err.message).toMatch(/^The free per-minute allowance without a key is used up for this minute\. Get a free API key /);
+    expect(err.message).not.toMatch(/\d+ requests/);
+    expect(err.message).toContain(KEYS_URL);
+    expect(err.message).toContain("CALCBLOC_API_KEY");
   });
 
   it("non-JSON error pages → http_error; bad JSON on 200 → invalid_response; fetch failure → network_error", async () => {

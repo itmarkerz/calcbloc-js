@@ -32,7 +32,10 @@ export function listCountries(): ManifestCountry[] {
   return manifest.countries.slice();
 }
 
-/** The manifest entry for a country id ("uk", "new-zealand"...), or undefined. */
+/**
+ * The manifest entry for a country, or undefined. Accepts the id ("uk", "new-zealand"), the short code ("nz"; "gb"
+ * for the UK), the ISO code ("NZ") or the English name ("New Zealand"), case-insensitively.
+ */
 export function getCountry(country: string): ManifestCountry | undefined {
   return findCountry(manifest, country);
 }
@@ -43,6 +46,7 @@ export function getCountry(country: string): ManifestCountry | undefined {
  * @example
  * const uk = loadTable("uk");                                   // current year, national
  * const ca = loadTable("us", { year: "2026", region: "ca" });   // California's state figures
+ * const nz = loadTable("nz");                                   // same as "NZ", "New Zealand" or "new-zealand"
  * @throws CalcBlocError with code unsupported_country, unsupported_year, unsupported_region or not_found.
  */
 export function loadTable(country: string, options: LoadTableOptions = {}): TaxTable {

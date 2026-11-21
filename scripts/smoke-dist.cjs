@@ -15,6 +15,13 @@ for (const c of tablesApi.listCountries()) {
   assert.deepEqual(mod.tables.table(), tablesApi.loadTable(c.country), `${c.country}: subpath module and loadTable agree`);
 }
 
+for (const [alias, id] of [["nz", "new-zealand"], ["gb", "uk"], ["de", "germany"]]) {
+  const mod = require(`calcbloc/tables/${alias}`);
+  assert.equal(mod.tables, require(`calcbloc/tables/${id}`).tables, `calcbloc/tables/${alias} re-exports ${id}`);
+  assert.equal(mod.default, mod.tables);
+}
+assert.deepEqual(tablesApi.loadTable("New Zealand"), tablesApi.loadTable("new-zealand"));
+
 assert.throws(() => tablesApi.loadTable("atlantis"), (e) => e instanceof CalcBlocError && e.code === "unsupported_country");
 
 console.log(`CJS ok: ${tablesApi.listCountries().length} countries via calcbloc/tables and calcbloc/tables/<country>`);
