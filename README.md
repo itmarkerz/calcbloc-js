@@ -85,14 +85,14 @@ pay.calculatorUrl;       // https://calcbloc.com/uk/take-home-pay-calculator
 pay.attribution.text;    // "Data by CalcBloc (calcbloc.com)"
 ```
 
-Response from the live API on 11 November 2026. Works without a key for 50 requests a day; a free key from [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) gives 5,000.
+Response from the live API on 11 November 2026. Works without a key for 300 requests a day and 20 a minute per IP address (see [calcbloc.com/developers#limits](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss#limits)); a free key from [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) gives 5,000.
 
 ## Offline tables or the API?
 
 | | `calcbloc/tables` (bundled) | `CalcBloc` client (API) |
 | --- | --- | --- |
 | Network | None | HTTPS to calcbloc.com |
-| API key | Not needed | Optional: 50 requests a day without one, 5,000 with a free key |
+| API key | Not needed | Optional: 300 requests a day and 20 a minute per IP address without one, 5,000 a day with a free key |
 | Data | This package version (see `manifest.generatedAt`) | Always current |
 | Tax tables | National and regional, every bundled year | Same, plus CSV |
 | Take-home pay, employer cost, compare | No (use `taxFromBands` for brackets only) | Yes |
@@ -152,14 +152,20 @@ const calcbloc = new CalcBloc({
 await calcbloc.countries();                                        // countries, years, regions, endpoints and parameters
 await calcbloc.taxTables("us", { year: "latest", region: "ny" });  // TaxTable
 await calcbloc.taxTables("ireland", { format: "csv" });            // CSV text
-await calcbloc.netSalary({ country: "canada", salary: 85_000, region: "on" });
-await calcbloc.employerCost({ country: "germany", salary: 60_000 });
-await calcbloc.compare({ a: "uk", b: "ireland", salary: 60_000 });
+await calcbloc.netSalary({ country: "us", salary: 120_000, region: "ca", filing_status: "mfj" });
+await calcbloc.netSalary({ country: "ca", salary: 85_000, region: "on" });     // Canada; "canada" works too
+await calcbloc.netSalary({ country: "nz", salary: 80_000 });                    // New Zealand; "new-zealand" works too
+await calcbloc.employerCost({ country: "de", salary: 60_000 });
+await calcbloc.compare({ a: "uk", b: "ie", salary: 60_000 });
 
 calcbloc.rateLimit; // { limit, remaining, resetSeconds } from the last response
 ```
 
-Each country's calculation parameters (filing status, pension rate, region, student loan plan...) are listed by `countries()` under `endpoints["net-salary"].parameters` and documented at [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss). The OpenAPI 3.1 document is at [calcbloc.com/api/openapi.json](https://calcbloc.com/api/openapi.json).
+In API calls, countries are given by their short code: ISO 3166-1 alpha-2 in lower case, with the UK as `uk` (`gb` also works), such as `nz`, `de` or `ae`. English names and the older keys (`new-zealand`, `germany`) still work, and responses carry the older key in `country`. The offline `calcbloc/tables` loader uses the older keys listed in the coverage table.
+
+Each country's calculation parameters (filing status, pension rate, region, student loan plan...) are listed by `countries()` under `endpoints["net-salary"].parameters` and documented at [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss). The OpenAPI 3.1 document is at [calcbloc.com/api/openapi.json](https://calcbloc.com/api/openapi.json). The US `filing_status` values are `single`, `mfj` and `hoh` (common spellings such as `married` are accepted as `mfj`). `region` is required for take-home pay in the US and Canada and for employer cost in the US, Australia and Canada; without it the API returns 400 `missing_parameter` with the valid codes.
+
+Not supported yet: equity compensation (RSUs, stock options), bonus and supplemental withholding, and cross-border withholding.
 
 ### Errors
 
@@ -190,16 +196,16 @@ try {
 ### Free use and API keys
 
 - **Offline tables need no key and no network**: `calcbloc/tables` reads the tables bundled in the package.
-- **API calls work without a key** for 50 requests a day and 5 a minute per IP address, on every endpoint.
+- **API calls work without a key** for 300 requests a day and 20 a minute per IP address (see [calcbloc.com/developers#limits](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss#limits)), on every endpoint.
 - **Add a free API key for 5,000 requests a day** (60 a minute). Get one instantly at [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss) (enter your email address; the key is shown once).
 - **Set it** with `new CalcBloc({ apiKey: "cb_..." })`, or in the `CALCBLOC_API_KEY` environment variable, which the client reads by default in Node. It is sent in the `X-API-Key` header; the API refuses keys in the URL. Keep keys on the server; do not ship them in browser code.
 
 | | Per day | Per minute |
 | --- | --- | --- |
-| No key (per IP address) | 50 | 5 |
+| No key (per IP address) | 300 | 20 |
 | Free key | 5,000 | 60 |
 
-When the free allowance without a key is used up, the client throws a `RateLimitError` whose message says so, links to the keys page and shows how to set the key. With a key, the message gives that key's limit. For higher volumes, see [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss).
+Every response carries `X-RateLimit-Limit` (the daily limit) and `X-RateLimit-Remaining`. When the free allowance without a key is used up, the client throws a `RateLimitError` whose message says so (quoting the daily limit the API last reported), links to the keys page and shows how to set the key. With a key, the message gives that key's limit. For higher volumes, see [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
 ## Data, sources and licence
 
