@@ -1,3 +1,4 @@
+import { resolveCountryKey } from "./country-codes";
 import { CalcBlocError, RateLimitError } from "./errors";
 import type {
   ApiErrorBody,
@@ -130,11 +131,16 @@ export class CalcBloc {
     return this.#getJson("/api/v1/countries", {}, options);
   }
 
-  /** GET /api/v1/tax-tables/{country}/{year}: official income tax brackets, social security rates and thresholds. */
+  /**
+   * GET /api/v1/tax-tables/{country}/{year}: official income tax brackets, social security rates and thresholds.
+   * `country` is a key ("new-zealand"), short code ("nz"), ISO code ("NZ") or English name ("New Zealand").
+   */
   taxTables(country: string, options?: TaxTablesOptions & { format?: "json" }): Promise<TaxTable>;
   taxTables(country: string, options: TaxTablesOptions & { format: "csv" }): Promise<string>;
   taxTables(country: string, options: TaxTablesOptions = {}): Promise<TaxTable | string> {
     const year = options.year ?? "latest";
+    // Short codes ("nz"), ISO codes ("NZ") and English names ("New Zealand") become the country key ("new-zealand").
+    if (typeof country === "string") country = resolveCountryKey(country) ?? country;
     for (const [name, v] of [["country", country], ["year", year]] as const)
       if (typeof v !== "string" || !SEGMENT.test(v)) return Promise.reject(new CalcBlocError("invalid_parameter", `Invalid ${name} "${String(v).slice(0, 40)}": use letters, digits and hyphens (e.g. "uk", "2026-27", "latest").`, { status: 0 }));
     const path = `/api/v1/tax-tables/${encodeURIComponent(country.toLowerCase())}/${encodeURIComponent(year)}`;

@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { COUNTRY_CODES, normKey, resolveCountryKey } from "../src/country-codes";
 import { CalcBlocError } from "../src/errors";
 import { getCountry, listCountries, loadTable, loadTablesWithRegions, manifest } from "../src/tables";
 import integrity from "./data-integrity.json";
@@ -40,6 +41,49 @@ describe("manifest", () => {
   });
   it("bundles every file the integrity record lists (the current year of every country at least)", () => {
     expect(files.map((f) => f.file).sort()).toEqual(Object.keys(integrity.files).sort());
+  });
+});
+
+describe("country identifiers (short codes, ISO codes, English names)", () => {
+  it("every bundled country has a code entry, and its short code, ISO code and name load the same table", () => {
+    for (const c of manifest.countries) {
+      const info = COUNTRY_CODES[c.country];
+      expect(info, c.country).toBeDefined();
+      for (const id of [info.short, info.short.toUpperCase(), info.iso, info.iso.toLowerCase(), info.name, c.name, c.name.toUpperCase(), c.country]) {
+        expect(getCountry(id)?.country, `${c.country} via ${id}`).toBe(c.country);
+      }
+    }
+  });
+
+  it("nz, NZ, New Zealand and new-zealand load the New Zealand table; gb is the UK; de is Germany", () => {
+    const nz = loadTable("new-zealand");
+    for (const id of ["nz", "NZ", "New Zealand", "new zealand", " NEW-ZEALAND "]) expect(loadTable(id)).toEqual(nz);
+    expect(loadTable("gb")).toEqual(loadTable("uk"));
+    expect(loadTable("GB", { year: "2025-26", region: "scotland" })).toEqual(loadTable("uk", { year: "2025-26", region: "scotland" }));
+    expect(loadTable("de")).toEqual(loadTable("germany"));
+    expect(loadTable("Germany").country).toBe("germany");
+    expect(loadTablesWithRegions("ch").regions.length).toBe(getCountry("switzerland")!.regions.length);
+  });
+
+  it("unknown values still throw unsupported_country", () => {
+    for (const id of ["atlantis", "xx", "", "New Atlantis"]) {
+      expect(getCountry(id)).toBeUndefined();
+      expect(() => loadTable(id)).toThrow(CalcBlocError);
+      try {
+        loadTable(id);
+      } catch (e) {
+        expect(e).toMatchObject({ code: "unsupported_country", status: 404 });
+      }
+    }
+  });
+
+  it("matches the API's normalisation (case, accents, spaces, dots, underscores)", () => {
+    expect(normKey(" Türkiye ")).toBe("turkiye");
+    expect(normKey("New_Zealand")).toBe("new-zealand");
+    expect(resolveCountryKey("Türkiye")).toBe("turkey");
+    expect(resolveCountryKey("czech.republic")).toBe("czechia");
+    expect(resolveCountryKey("atlantis")).toBeUndefined();
+    expect(resolveCountryKey("United Arab Emirates")).toBe("uae");
   });
 });
 

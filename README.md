@@ -108,6 +108,7 @@ import { manifest, listCountries, getCountry, loadTable, loadTablesWithRegions }
 listCountries().map((c) => c.country);       // ["us", "uk", "australia", ...] from the manifest
 getCountry("canada").regions;                 // [{ code: "on", name: "Ontario", slug: "ontario" }, ...]
 loadTable("canada", { region: "qc" });        // Quebec's provincial figures only
+loadTable("nz");                              // short code, ISO code ("NZ") or name ("New Zealand") work too
 loadTable("uk", { year: "2025-26" });         // an earlier year kept for reference (isCurrent: false)
 loadTablesWithRegions("switzerland");          // { national, regions: [26 cantons] }
 manifest.countries[0].sourceUrls;             // the official pages behind a country's figures
@@ -129,7 +130,7 @@ tables.currentYear; // "2026"
 const ie = tables.table(); // same TaxTable as loadTable("ireland")
 ```
 
-Any country id from the coverage table works (`calcbloc/tables/new-zealand`, `calcbloc/tables/us`...). In Node's native ESM this uses JSON import attributes (Node 18.20, 20.10 or later).
+Any country id from the coverage table works (`calcbloc/tables/new-zealand`, `calcbloc/tables/us`...), and so does its lower-case short code (`calcbloc/tables/nz`, `calcbloc/tables/de`, `calcbloc/tables/gb` for the UK). In Node's native ESM this uses JSON import attributes (Node 18.20, 20.10 or later).
 
 ### `taxFromBands(section, income)`
 
@@ -161,7 +162,7 @@ await calcbloc.compare({ a: "uk", b: "ie", salary: 60_000 });
 calcbloc.rateLimit; // { limit, remaining, resetSeconds } from the last response
 ```
 
-In API calls, countries are given by their short code: ISO 3166-1 alpha-2 in lower case, with the UK as `uk` (`gb` also works), such as `nz`, `de` or `ae`. English names and the older keys (`new-zealand`, `germany`) still work, and responses carry the older key in `country`. The offline `calcbloc/tables` loader uses the older keys listed in the coverage table.
+In API calls, countries are given by their short code: ISO 3166-1 alpha-2 in lower case, with the UK as `uk` (`gb` also works), such as `nz`, `de` or `ae`. English names and the older keys (`new-zealand`, `germany`) still work, and responses carry the older key in `country`. The offline `calcbloc/tables` loader accepts the same identifiers.
 
 Each country's calculation parameters (filing status, pension rate, region, student loan plan...) are listed by `countries()` under `endpoints["net-salary"].parameters` and documented at [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-js&utm_medium=readme&utm_campaign=itmarkerz-oss). The OpenAPI 3.1 document is at [calcbloc.com/api/openapi.json](https://calcbloc.com/api/openapi.json). The US `filing_status` values are `single`, `mfj` and `hoh` (common spellings such as `married` are accepted as `mfj`). `region` is required for take-home pay in the US and Canada and for employer cost in the US, Australia and Canada; without it the API returns 400 `missing_parameter` with the valid codes.
 

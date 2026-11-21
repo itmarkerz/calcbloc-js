@@ -21,6 +21,15 @@ for (const c of listCountries()) {
   assert.deepEqual(t, loadTable(c.country), `${c.country}: subpath module and loadTable agree`);
 }
 
+// Short-code alias modules and identifiers.
+for (const [alias, id] of [["nz", "new-zealand"], ["gb", "uk"], ["de", "germany"]]) {
+  const mod = await import(`calcbloc/tables/${alias}`);
+  assert.equal(mod.tables, (await import(`calcbloc/tables/${id}`)).tables, `calcbloc/tables/${alias} re-exports ${id}`);
+  assert.equal(mod.default, mod.tables);
+}
+assert.deepEqual(loadTable("New Zealand"), loadTable("new-zealand"));
+assert.deepEqual(loadTable("NZ"), loadTable("nz"));
+
 try {
   loadTable("atlantis");
   assert.fail("expected an error");

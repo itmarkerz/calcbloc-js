@@ -53,6 +53,23 @@ describe("CalcBloc client (mocked fetch)", () => {
     expect(calls[1].url).toBe("https://example.test/api/v1/tax-tables/uk/2025-26");
   });
 
+  it("taxTables(): short codes, ISO codes and English names become the country key in the path", async () => {
+    const { fetch, calls } = mockFetch(200, {});
+    const client = new CalcBloc({ fetch });
+    for (const id of ["nz", "NZ", "New Zealand", "new-zealand"]) await client.taxTables(id);
+    await client.taxTables("gb", { year: "2026-27" });
+    await client.taxTables("de");
+    expect(calls.map((c) => c.url)).toEqual([
+      ...Array(4).fill("https://calcbloc.com/api/v1/tax-tables/new-zealand/latest"),
+      "https://calcbloc.com/api/v1/tax-tables/uk/2026-27",
+      "https://calcbloc.com/api/v1/tax-tables/germany/latest",
+    ]);
+    // Unknown plain ids are still sent as given (the API answers 404 unsupported_country); others are refused locally.
+    await client.taxTables("atlantis");
+    expect(calls[6].url).toBe("https://calcbloc.com/api/v1/tax-tables/atlantis/latest");
+    await expect(client.taxTables("New Atlantis")).rejects.toMatchObject({ code: "invalid_parameter" });
+  });
+
   it("taxTables({ format: 'csv' }) returns text and asks for CSV", async () => {
     const { fetch, calls } = mockFetch(200, "section_id,section\nusc,USC\n");
     const csv = await new CalcBloc({ fetch }).taxTables("ireland", { format: "csv" });
