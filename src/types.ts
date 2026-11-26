@@ -393,3 +393,142 @@ export interface RateLimitInfo {
   /** Seconds until the daily window resets (UTC midnight). */
   resetSeconds: number;
 }
+
+// ---------------------------------------------------------------------------------------------------------------
+// API 1.8 and 1.9 endpoints. Responses are typed loosely (the shared fields only); every field the API returns is
+// present. See https://calcbloc.com/developers for each endpoint's full response.
+
+/** A JSON response of the API: always carries the attribution block. */
+export interface ApiResponse {
+  attribution: Attribution;
+  [field: string]: unknown;
+}
+
+/** Query parameters of /supplemental-withholding (API 1.8): tax withheld on a bonus or other supplemental pay. */
+export interface SupplementalWithholdingParams {
+  /** Country: short code, English name or key (us, uk, ie, ca, au, nz...). */
+  country: string;
+  /** Regular gross annual salary, before the supplemental payment. */
+  salary: number;
+  /** The supplemental payment (gross), in the country's currency. */
+  amount: number;
+  /** bonus (default), commission, rsu_vest, option_exercise, lump_sum... (per country; see countries()). */
+  type?: string;
+  /** Region where required (US state, Canadian province). */
+  region?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /equity-tax (API 1.8): RSUs and stock options at vest or exercise, and on sale. */
+export interface EquityTaxParams {
+  country: string;
+  /** us: rsu, nso, iso; uk: rsu, emi, csop, unapproved_option; au: ess_upfront, ess_deferred, rsu; ca: stock_option; in: esop, rsu. */
+  instrument: string;
+  units: number;
+  /** YYYY-MM-DD */
+  grant_date: string;
+  /** Vest date (RSUs), exercise date (options) or the taxing point, YYYY-MM-DD. */
+  event_date: string;
+  /** Market value per share at the event. */
+  fmv_event?: number;
+  /** Market value per share at grant (UK EMI and CSOP, Canada 110(1)(d)). */
+  fmv_grant?: number;
+  exercise_price?: number;
+  sale_date?: string;
+  sale_price?: number;
+  salary?: number;
+  region?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/**
+ * Query parameters of /cross-border-equity (API 1.9): an RSU vest or option exercise split between the countries
+ * worked in from grant to vest.
+ */
+export interface CrossBorderEquityParams {
+  /** rsu or stock_option */
+  instrument: string;
+  units: number;
+  grant_date: string;
+  vest_date?: string;
+  event_date: string;
+  fmv_event?: number;
+  exercise_price?: number;
+  /** Currency of fmv_event and exercise_price (default USD). */
+  currency?: string;
+  /** Work periods, comma-separated country:start:end[:workdays], e.g. "us:2024-01-01:2024-12-31:220,gb:2025-01-01:2025-06-30:120". */
+  periods: string;
+  residence?: string;
+  grant_country?: string;
+  us_citizen?: boolean;
+  /** Regular annual salary per country in its own currency, e.g. "us:150000,gb:80000". */
+  salaries?: string;
+  /** Per-country options, comma-separated country.option:value, e.g. "us.filing_status:mfj,us.region:ny". */
+  options?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /facts (API 1.9): tax facts by country, tax type and jurisdiction. */
+export interface FactsParams {
+  country?: string;
+  /** Tax type code or dotted prefix: income.pit, consumption.vat, consumption.sales... */
+  tax_type?: string;
+  level?: string;
+  /** Jurisdiction id, exact: gb, gb-sct, us-ca... */
+  jurisdiction?: string;
+  /** "latest" or a tax year (2026, 2026-27). */
+  year?: string;
+  limit?: number;
+  /** next_cursor from the previous page. */
+  cursor?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /tax-calendar (API 1.9). Without a country, every country's calendar. */
+export interface TaxCalendarParams {
+  country?: string;
+  region?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /tariffs (API 1.9): tariff lines of a commodity code in the UK, EU, US or Indian tariff. */
+export interface TariffsParams {
+  /** Importing country or area: gb (uk), eu or a member state, us, in. */
+  destination: string;
+  /** HS prefix (2, 4, 6 or 8 digits) or a full commodity code. */
+  code: string;
+  /** Country of origin: with it, the best preference for that origin. */
+  origin?: string;
+  limit?: number;
+  cursor?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /trade-agreements (API 1.9). */
+export interface TradeAgreementsParams {
+  /** Country whose tariff the agreements come from: gb, eu, us, in. */
+  country: string;
+  /** Only agreements covering this origin country. */
+  partner?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Query parameters of /import-duty (API 1.9): duties, import VAT, excise and landed cost of one import. */
+export interface ImportDutyParams {
+  destination: string;
+  origin: string;
+  /** The 10-digit commodity code (8 for India). */
+  code: string;
+  /** Customs value in the tariff's currency. */
+  customs_value: number;
+  quantity?: number;
+  unit?: string;
+  proof_of_origin?: boolean;
+  additional_code?: string;
+  excise_code?: string;
+  documents?: string;
+  vat_code?: string;
+  /** US only: vessel, air, truck, rail, mail, other. */
+  transport?: string;
+  [param: string]: ParamValue | undefined;
+}

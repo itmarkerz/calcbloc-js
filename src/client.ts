@@ -2,15 +2,24 @@ import { resolveCountryKey } from "./country-codes";
 import { CalcBlocError, RateLimitError } from "./errors";
 import type {
   ApiErrorBody,
+  ApiResponse,
   CalculationParams,
   CompareParams,
   CompareResponse,
   CountriesResponse,
+  CrossBorderEquityParams,
   EmployerCostResponse,
+  EquityTaxParams,
+  FactsParams,
+  ImportDutyParams,
   NetSalaryResponse,
   ParamValue,
   RateLimitInfo,
+  SupplementalWithholdingParams,
+  TariffsParams,
+  TaxCalendarParams,
   TaxTable,
+  TradeAgreementsParams,
 } from "./types";
 import { VERSION } from "./version";
 
@@ -162,6 +171,46 @@ export class CalcBloc {
   /** GET /api/v1/compare: the same salary in two countries, converted at the ECB reference rate. */
   compare(params: CompareParams, options: RequestOptions = {}): Promise<CompareResponse> {
     return this.#getJson("/api/v1/compare", params, options);
+  }
+
+  /** GET /api/v1/supplemental-withholding (API 1.8): tax withheld on a bonus, commission, RSU vest or lump sum, next to the final tax it adds. */
+  supplementalWithholding(params: SupplementalWithholdingParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/supplemental-withholding", params, options);
+  }
+
+  /** GET /api/v1/equity-tax (API 1.8): tax on RSUs and stock options at vest or exercise, and on sale. */
+  equityTax(params: EquityTaxParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/equity-tax", params, options);
+  }
+
+  /** GET /api/v1/cross-border-equity (API 1.9): an RSU vest or option exercise split between the countries worked in, with each share's estimated tax. */
+  crossBorderEquity(params: CrossBorderEquityParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/cross-border-equity", params, options);
+  }
+
+  /** GET /api/v1/facts (API 1.9): tax facts by country, tax type and jurisdiction, paged with `cursor`. */
+  facts(params: FactsParams = {}, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/facts", params, options);
+  }
+
+  /** GET /api/v1/tax-calendar (API 1.9): tax year, next tax year, enacted and announced changes, next budget. */
+  taxCalendar(params: TaxCalendarParams = {}, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/tax-calendar", params, options);
+  }
+
+  /** GET /api/v1/tariffs (API 1.9): tariff lines of a commodity code in the UK, EU, US or Indian tariff. */
+  tariffs(params: TariffsParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/tariffs", params, options);
+  }
+
+  /** GET /api/v1/trade-agreements (API 1.9): trade agreements and preference schemes in a country's tariff. */
+  tradeAgreements(params: TradeAgreementsParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/trade-agreements", params, options);
+  }
+
+  /** GET /api/v1/import-duty (API 1.9): duties, import VAT, excise and landed cost of one import. Not a customs ruling. */
+  importDuty(params: ImportDutyParams, options: RequestOptions = {}): Promise<ApiResponse> {
+    return this.#getJson("/api/v1/import-duty", params, options);
   }
 
   async #getJson<T>(path: string, query: Record<string, ParamValue | undefined>, options: RequestOptions): Promise<T> {

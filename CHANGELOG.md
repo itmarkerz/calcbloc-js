@@ -4,7 +4,14 @@ All notable changes to this package are listed here. The package follows [semant
 
 ## Unreleased
 
-For CalcBloc API 1.7.
+For CalcBloc API 1.9.
+
+- New client methods: `supplementalWithholding()` and `equityTax()` (API 1.8), and `crossBorderEquity()`, `facts()`, `taxCalendar()`, `tariffs()`, `tradeAgreements()` and `importDuty()` (API 1.9), with typed parameters (`SupplementalWithholdingParams`, `EquityTaxParams`, `CrossBorderEquityParams`, `FactsParams`, `TaxCalendarParams`, `TariffsParams`, `TradeAgreementsParams`, `ImportDutyParams`). They return the API's JSON as `ApiResponse`.
+- Bundled tables: 133 countries (338 tables), synced from calcbloc-data 2026-11-26; Belgium stays pending. Country codes, ISO codes and names for all of them in `src/country-codes.json`, from the API's own list.
+- The flat `rows` are now stored in the data files: since API 1.8 they carry columns the sections do not hold (`tax_type`, `jurisdiction`, `level`, `table_version`), so they cannot be rebuilt at load time. `test/data-integrity.json` still checks every loaded table byte for byte.
+- Band rate check: rates above 100% are accepted for an ad valorem vehicle registration tax (Hong Kong's first registration tax, 115% and 132%).
+
+For CalcBloc API 1.7:
 
 - The `RateLimitError` message without a key no longer states fixed limits. It quotes the daily limit the API reported in `X-RateLimit-Limit` when one has been seen ("The free daily allowance without a key (300 requests a day) is used up."), says "The free per-minute allowance without a key is used up for this minute." for the per-minute limit, and otherwise gives no number. It still links to a free email-only key and says how to set it (`new CalcBloc({ apiKey })` or `CALCBLOC_API_KEY`). Docstrings point to https://calcbloc.com/developers#limits instead of quoting numbers.
 - Countries can be given by short code (`nz`; `gb` or `uk` for the UK), ISO code (`NZ`) or English name (`New Zealand`), case-insensitively, as well as by the existing id (`new-zealand`): in `loadTable()`, `getCountry()` and `loadTablesWithRegions()`, as `calcbloc/tables/<short code>` modules (`calcbloc/tables/nz`), and in `taxTables()`, which maps them to the id before building the request path. The table mirrors the API's own (`src/country-codes.json`).

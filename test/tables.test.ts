@@ -195,7 +195,9 @@ describe("schema sanity: every row of every table", () => {
         s.rows.forEach((r, i) => {
           const where = `${f.file} ${s.id} row ${i}`;
           if (typeof r.from !== "number") problems.push(`${where}: from`);
-          if (!(r.rate >= 0 && r.rate <= 1)) problems.push(`${where}: rate ${r.rate}`);
+          // Above 100% only for an ad valorem vehicle registration tax (Hong Kong's first registration tax: 115% and 132%).
+          const max = /^vehicle-tax$|registration/i.test(s.id) ? 5 : 1;
+          if (!(r.rate >= 0 && r.rate <= max)) problems.push(`${where}: rate ${r.rate}`);
           if (r.to !== null && !(r.to > r.from)) problems.push(`${where}: to <= from`);
           if (i > 0 && r.from < s.rows[i - 1].from) problems.push(`${where}: out of order`);
         });
@@ -205,10 +207,13 @@ describe("schema sanity: every row of every table", () => {
     expect(problems).toEqual([]);
   });
 
-  it("package data is minified JSON without the flat rows (rebuilt at load time)", () => {
-    const f = files[0];
-    const raw = readFileSync(new URL(`../data/${f.file}`, import.meta.url), "utf8");
-    expect(raw.includes("\n")).toBe(false);
-    expect("rows" in JSON.parse(raw)).toBe(false);
+  it("package data is minified JSON; flat rows are stored only where they cannot be rebuilt exactly", () => {
+    // Since API 1.8 the rows carry columns the sections do not hold (tax_type, jurisdiction, level, table_version),
+    // so the sync keeps them; test/data-integrity.json still checks every loaded table byte for byte.
+    for (const f of files.slice(0, 5)) {
+      const raw = readFileSync(new URL(`../data/${f.file}`, import.meta.url), "utf8");
+      expect(raw.includes("\n")).toBe(false);
+      expect(Array.isArray(loadTable(f.country, { year: f.year, region: f.region }).rows)).toBe(true);
+    }
   });
 });
