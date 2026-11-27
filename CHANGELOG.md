@@ -2,7 +2,15 @@
 
 All notable changes to this package are listed here. The package follows [semantic versioning](https://semver.org/); a data-only update (new figures, a new country or year) is a minor release.
 
-## Unreleased
+## 0.2.0 (unreleased)
+
+For CalcBloc API 1.10.
+
+- New client method `taxTreaties()` for GET /api/v1/tax-treaties: the double taxation treaties stored for a country (India), with the maximum withholding rates on dividends, interest, royalties and fees for technical services, their articles and wording, the relief methods, dates and the official source. Typed parameters and response (`TaxTreatiesParams`, `TaxTreatiesResponse`, `TaxTreaty`, `TreatyWithholding`).
+- `verification` on `NetSalaryResponse`, `EmployerCostResponse` and on each `net-salary` and `employer-cost` entry of `countries()` (`Verification`: `"official-example"`, `"law-text"` or `null`). With a value, the first note says how the calculation was checked and links the official sources.
+- Take-home pay and employer cost for Denmark (`dk`: `municipality`, `church`, `atp_hours`), Estonia (`ee`: `funded_pension`, `pension_age`) and Poland (`pl`: `accident_rate_pct`, `commuter`) work through `netSalary()` and `employerCost()` as they are; `compare()` accepts `dk`, `ee` and `pl`.
+- Bundled tables: 217 countries (422 tables), synced from calcbloc-data 2026-11-27; Belgium stays pending. Country codes, ISO codes and names for the 84 new countries in `src/country-codes.json`, from the API's own list.
+- Tests use real API 1.10 responses as fixtures (`test/fixtures/api-1.10/`).
 
 For CalcBloc API 1.9.
 

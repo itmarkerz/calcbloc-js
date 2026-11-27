@@ -195,8 +195,9 @@ describe("schema sanity: every row of every table", () => {
         s.rows.forEach((r, i) => {
           const where = `${f.file} ${s.id} row ${i}`;
           if (typeof r.from !== "number") problems.push(`${where}: from`);
-          // Above 100% only for an ad valorem vehicle registration tax (Hong Kong's first registration tax: 115% and 132%).
-          const max = /^vehicle-tax$|registration/i.test(s.id) ? 5 : 1;
+          // Above 100% only for an ad valorem tax on vehicles: Hong Kong's first registration tax (115% and 132%) and
+          // Laos's excise on fuel-powered cars by engine capacity (up to 220%).
+          const max = /^vehicle-tax$|registration/i.test(s.id) || /\bcars\b|vehicle/i.test(s.title) ? 5 : 1;
           if (!(r.rate >= 0 && r.rate <= max)) problems.push(`${where}: rate ${r.rate}`);
           if (r.to !== null && !(r.to > r.from)) problems.push(`${where}: to <= from`);
           if (i > 0 && r.from < s.rows[i - 1].from) problems.push(`${where}: out of order`);

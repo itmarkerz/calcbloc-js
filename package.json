@@ -1,6 +1,6 @@
 {
   "name": "calcbloc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tax tables 2026 for Node and TypeScript: official income tax brackets, social security rates and payroll thresholds, bundled for offline use, plus a typed client for the CalcBloc tax tables API.",
   "keywords": [
     "tax",

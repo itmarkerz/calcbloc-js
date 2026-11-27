@@ -19,6 +19,8 @@ import type {
   TariffsParams,
   TaxCalendarParams,
   TaxTable,
+  TaxTreatiesParams,
+  TaxTreatiesResponse,
   TradeAgreementsParams,
 } from "./types";
 import { VERSION } from "./version";
@@ -211,6 +213,15 @@ export class CalcBloc {
   /** GET /api/v1/import-duty (API 1.9): duties, import VAT, excise and landed cost of one import. Not a customs ruling. */
   importDuty(params: ImportDutyParams, options: RequestOptions = {}): Promise<ApiResponse> {
     return this.#getJson("/api/v1/import-duty", params, options);
+  }
+
+  /**
+   * GET /api/v1/tax-treaties (API 1.10): the double taxation treaties stored for a country (India), each with the
+   * maximum withholding rates on dividends, interest, royalties and fees for technical services, their articles and
+   * wording, the relief methods, dates and the official source. Nothing is computed.
+   */
+  taxTreaties(params: TaxTreatiesParams, options: RequestOptions = {}): Promise<TaxTreatiesResponse> {
+    return this.#getJson("/api/v1/tax-treaties", params, options);
   }
 
   async #getJson<T>(path: string, query: Record<string, ParamValue | undefined>, options: RequestOptions): Promise<T> {

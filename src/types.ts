@@ -195,9 +195,19 @@ export interface EndpointParameter {
   description: string;
 }
 
+/**
+ * API 1.10+: how a calculation is checked. `official-example`: the golden tests reproduce a worked example or simulator
+ * result published by the tax authority or social security institution (within 1 currency unit); `law-text`: no
+ * official example is published, so the golden tests are worked by hand from the law. `null` for countries with
+ * their own engine.
+ */
+export type Verification = "official-example" | "law-text" | null;
+
 export interface CalculationEndpointInfo {
   path: string;
   calculatorUrl: string;
+  /** API 1.10+: how this country's calculation is checked (see `Verification`). */
+  verification?: Verification;
   parameters: EndpointParameter[];
 }
 
@@ -296,7 +306,13 @@ interface CalculationResponseBase<E extends string, S> {
   /** Every numeric output of the calculator engine, annual unless the key says otherwise. */
   results: Record<string, number>;
   breakdown: Breakdown | null;
+  /** With a `verification`, the first note says how the calculation was checked and gives the official URLs. */
   notes: string[];
+  /**
+   * API 1.10+: "official-example" (checked against an official worked example: Estonia, Poland), "law-text" (worked
+   * by hand from the law: Denmark) or null (countries with their own engine).
+   */
+  verification?: Verification;
   calculatorUrl: string;
   /** Notes about clamped or rounded inputs. */
   warnings: string[];
@@ -531,4 +547,61 @@ export interface ImportDutyParams {
   /** US only: vessel, air, truck, rail, mail, other. */
   transport?: string;
   [param: string]: ParamValue | undefined;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// API 1.10
+
+/** Query parameters of /tax-treaties (API 1.10): the double taxation treaties stored for a country. */
+export interface TaxTreatiesParams {
+  /** Country whose treaties to list: ISO 3166-1 alpha-2 code ("in") or English name ("India"). Treaties are stored for India. */
+  country: string;
+  /** Only the treaty with this country: ISO code ("us", "gb" or "uk") or English name. */
+  partner?: string;
+  [param: string]: ParamValue | undefined;
+}
+
+/** Kind of payment a treaty withholding limit applies to. */
+export type TreatyWithholdingKind = "dividend" | "dividend_substantial" | "interest" | "royalty" | "fts";
+
+/** One withholding limit of a treaty: the maximum tax the source State may charge. */
+export interface TreatyWithholding {
+  kind: TreatyWithholdingKind;
+  /** Maximum rate in the source State, as a decimal (0.15 = 15%). */
+  rate: number;
+  condition: string | null;
+  /** Article and paragraph, e.g. "Article 10(2)(a)". */
+  article: string | null;
+  /** The article's wording, verbatim. */
+  quote: string | null;
+}
+
+/** One double taxation treaty of GET /api/v1/tax-treaties. */
+export interface TaxTreaty {
+  /** The two countries (ISO 3166-1 alpha-2, lower case), e.g. ["in", "us"]. */
+  countries: string[];
+  partner: string;
+  partner_name: string | null;
+  title: string;
+  /** Signature date (YYYY-MM-DD) where the source states it. */
+  signed: string | null;
+  /** Entry-into-force date (YYYY-MM-DD) where the source states it. */
+  in_force: string | null;
+  /** Whether the MLI modifies the treaty; null where not stated. */
+  mli: boolean | null;
+  /** Relief method of each country, keyed by ISO code. */
+  relief_method: Record<string, "credit" | "exemption" | "exemption_with_progression">;
+  withholding: TreatyWithholding[];
+  source: { id: string; url?: string; title?: string; publisher?: string; instrument?: string | null; retrieved_at?: string; quote?: string | null };
+  data_file: string;
+}
+
+/** GET /api/v1/tax-treaties (API 1.10). Nothing is computed: the rates are the treaty's maximum rates. */
+export interface TaxTreatiesResponse {
+  /** ISO code of the country asked for, e.g. "in". */
+  country: string;
+  partner: string | null;
+  count: number;
+  treaties: TaxTreaty[];
+  attribution: Attribution;
 }
